@@ -22,6 +22,7 @@ class Demand extends Model
         'status'=>'queued',
     ];
 
+
     /**
      * Relationships between models User & Demand
      */
