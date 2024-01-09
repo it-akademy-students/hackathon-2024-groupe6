@@ -23,6 +23,7 @@ class AuthRegisterController extends Controller
 
         $user = User::create($data);
 
+
         return new RegisterResource($user);
     }
 }
