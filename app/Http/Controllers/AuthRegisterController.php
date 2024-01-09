@@ -18,7 +18,7 @@ class AuthRegisterController extends Controller
      */
     public function register(RegisterRequest $request): RegisterResource
     {
-        $data = $request->validate();
+        $data = $request->validated();
 
         $user = User::create($data);
 

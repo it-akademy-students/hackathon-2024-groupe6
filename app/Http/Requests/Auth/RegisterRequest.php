@@ -4,7 +4,18 @@ namespace App\Http\Requests\Auth;
 
 class RegisterRequest extends \Illuminate\Foundation\Http\FormRequest
 {
-    public function validate(array $rules, ...$params): array
+    /**
+   * Determine if the user is authorized to make this request.
+   *
+   * @return bool
+   */
+  public function authorize(): bool
+  {
+    return true;
+  }
+
+
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:250',
