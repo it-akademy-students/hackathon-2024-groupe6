@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Request extends Model
+class Demand extends Model
 {
     use HasFactory;
 
@@ -23,7 +23,7 @@ class Request extends Model
     ];
 
     /**
-     * Relationships between models User & Request
+     * Relationships between models User & Demand
      */
     public function user() : BelongsTo
     {
@@ -31,7 +31,7 @@ class Request extends Model
     }
 
     /**
-     * Relationships between models Result & Request
+     * Relationships between models Result & Demand
      */
     public function result() : HasOne
     {

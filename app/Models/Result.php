@@ -11,10 +11,10 @@ class Result extends Model
     use HasFactory;
 
     /**
-     * Relationships between models Result & Request
+     * Relationships between models Result & Demand
      */
-    public function request() : BelongsTo
+    public function demand() : BelongsTo
     {
-        return $this->belongsTo('Request');
+        return $this->belongsTo('Demand');
     }
 }

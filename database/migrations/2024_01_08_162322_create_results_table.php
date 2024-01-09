@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('request_id');
-            $table->foreign('request_id')->references('id')->on('requests');
+            $table->foreign('demand_id')->references('id')->on('demands');
             $table->enum('status', ['success', 'failed']);
             $table->string('description');
             $table->timestamps();

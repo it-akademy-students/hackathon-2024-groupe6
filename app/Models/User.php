@@ -45,10 +45,10 @@ class User extends Authenticatable
     ];
 
     /**
-     * Relationship between the Request & User class
+     * Relationship between the Demand & User class
      */
-    public function requests() : HasMany
+    public function demands() : HasMany
     {
-        return $this -> hasMany('Request');
+        return $this -> hasMany('Demand');
     }
 }
