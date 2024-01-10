@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class RegisterResource extends \Illuminate\Http\Resources\Json\JsonResource
 {
-    public function toArray(Request $request)
+    public function toArray(Request $request): array
     {
         return [
             "id" => $this->id,

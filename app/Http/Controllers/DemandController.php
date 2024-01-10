@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Demand\DemandRequest;
+use App\Http\Resources\Demand\RegisterDemandRessource;
+use App\Http\Resources\Error\ErrorRessource;
 use App\Models\Demand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use PhpParser\Error;
 
 class DemandController extends Controller
 {
@@ -18,27 +21,24 @@ class DemandController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created resource in storage.
      */
-    public function create(DemandRequest $request): RegisterDemandRessource|bool
+    public function store(DemandRequest $request): RegisterDemandRessource|ErrorRessource
     {
         $data = $request->validated();
         $response = Http::get($data['url']);
 
         if ($response->successful()) {
-            $demand = Demand::create($data);
-            return new RegisterDemandRessource($demand);
+            try {
+                $demand = Demand::create($data);
+                CloneRepositoryJob::dispatch($demand);
+                return new RegisterDemandRessource($demand);
+            } catch (\Exception $exception) {
+                return new ErrorRessource($exception);
+            }
         }
 
-        return false;
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return new ErrorRessource();
     }
 
     /**
