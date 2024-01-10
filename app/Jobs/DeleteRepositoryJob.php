@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Mail\AnalyzeBeginMail;
 use App\Mail\AnalyzeFailedMail;
 use App\Models\Demand;
 use App\Models\User;
@@ -14,27 +13,22 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
-class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
+class DeleteRepositoryJob implements ShouldQueue, ShouldBeEncrypted
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /** @var Demand $demand */
     public Demand $demand;
 
-    /** @var string $repo_link */
-    public string $repo_link;
-
     /**
      * Create a new job instance.
      */
-    public function __construct(Demand $demand, string $repo_link)
+    public function __construct(Demand $demand)
     {
         $this->demand = $demand;
-        $this->repo_link = $repo_link;
     }
 
     /**
@@ -42,17 +36,14 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     public function handle(): void
     {
-        $process = Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/clones/') . $repo_name = Str::random(32));
-
-        $this->demand->update(['url' => '/clones/' . $repo_name]);
-
-        Mail::to(User::find($this->demand->user_id)->email)->send(new AnalyzeBeginMail());
+            Storage::disk('local')->deleteDirectory('/clones/z9RsqY8swoyqjazpIk4raQetGZrLzevV');
+            $this->demand->update(['url' => '']);
     }
 
     /**
      * Handle a job failure.
      */
-    public function failed(Throwable $exception): void
+    public function failed(Throwable $exception)
     {
         Mail::to(User::find($this->demand->user_id)->email)->send(new AnalyzeFailedMail($exception));
     }

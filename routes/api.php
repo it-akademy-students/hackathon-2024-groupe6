@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthRegisterController;
 use App\Jobs\CloneRepositoryJob;
+use App\Jobs\DeleteRepositoryJob;
 use App\Models\Demand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Process;
@@ -31,4 +32,5 @@ Route::controller(AuthRegisterController::class)->group(function() {
 
 Route::post('/test', function (Request $request) {
     CloneRepositoryJob::dispatch(Demand::find(1), $request->link);
+    DeleteRepositoryJob::dispatch(Demand::find(1));
 });
