@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthRegisterController;
+use App\Http\Controllers\DemandController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,7 @@ Route::controller(AuthRegisterController::class)->group(function() {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
 });
+
+Route::middleware('auth:sanctum')
+    ->controller(DemandController::class)
+    ->post('/demand', 'create');
