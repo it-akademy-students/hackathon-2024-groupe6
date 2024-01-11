@@ -42,9 +42,14 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     public function handle(): void
     {
-        $process = Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/clones/') . $repo_name = Str::random(32));
+        Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/clones/') . $repo_name = Str::random(32));
 
-        $this->demand->update(['url' => '/clones/' . $repo_name]);
+        $branches = $this->getBranches($repo_name);
+
+        $this->demand->update([
+            'repo_path' => '/clones/' . $repo_name,
+            'branches' => $branches
+        ]);
 
         Mail::to(User::find($this->demand->user_id)->email)->send(new AnalyzeBeginMail());
     }
@@ -55,5 +60,20 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
     public function failed(Throwable $exception): void
     {
         Mail::to(User::find($this->demand->user_id)->email)->send(new AnalyzeFailedMail($exception));
+    }
+
+    /**
+     * Get the list of origin branches to array
+     * @param string $repo_name
+     * @return array
+     */
+    private function getBranches(string $repo_name): array
+    {
+        $process_branches = Process::run('cd ' . storage_path('app/clones/') . $repo_name . ' && git branch -r');
+
+        $branches_array = explode("\n", $process_branches->output());
+        array_shift($branches_array);
+
+        return $branches_array;
     }
 }
