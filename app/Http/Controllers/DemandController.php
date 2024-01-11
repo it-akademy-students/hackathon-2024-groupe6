@@ -8,7 +8,6 @@ use App\Http\Resources\Error\ErrorRessource;
 use App\Models\Demand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use PhpParser\Error;
 
 class DemandController extends Controller
 {
@@ -37,8 +36,9 @@ class DemandController extends Controller
                 return new ErrorRessource($exception);
             }
         }
-
-        return new ErrorRessource();
+        $customError = new ErrorRessource();
+        $customError->setMessage('L\'url saisi n\'est pas valide. Veuillez recommencer votre demande.');
+        return $customError;
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\Auth\LoginResource;
 use App\Http\Resources\Auth\RegisterResource;
+use App\Http\Resources\Error\ErrorRessource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -16,33 +17,55 @@ class AuthRegisterController extends Controller
     /**
      * Register a new user.
      *
-     * @param  RegisterRequest
+     * @param  RegisterResource
      * @return RegisterResource
      */
-    public function register(RegisterRequest $request): RegisterResource
+    public function register(RegisterRequest $request): RegisterResource|ErrorRessource
     {
         $data = $request->validated();
         $data["password"] = Hash::make($request->password);
 
-        $user = User::create($data);
+        try
+        {
+            $user = User::create($data);
+            return new RegisterResource($user);
+        }
+        catch (\Exception $exception)
+        {
+            return new ErrorRessource($exception);
+        }
 
-
-        return new RegisterResource($user);
     }
 
-    public function login(LoginRequest $request): LoginResource|JsonResponse
+    /**
+     * Log in a user.
+     *
+     * @param  LoginRequest
+     * @return LoginRequest
+     */
+    public function login(LoginRequest $request): LoginResource|JsonResponse|ErrorRessource
     {
        $data = $request->validated();
 
        $user = User::where('email', $data['email'])->first();
 
-       //dd($data, $user);
-        if (!$user || !Hash::check($data['password'], $user->password)) {
-            return response()->json([
-                'message' => 'Invalid login details'
-            ], 401);
-        }
+       try
+       {
+           if (!$user || !Hash::check($data['password'], $user->password))
+           {
+               $response = new ErrorRessource();
+               $response -> setMessage('Mot de pas incorrecte.');
+               $response -> setCode(401);
 
-        return new LoginResource($user);
+               return $response;
+           }
+
+           return new LoginResource($user);
+       }
+       catch (\Exception $exception)
+       {
+           return new ErrorRessource($exception);
+       }
+
     }
 }
