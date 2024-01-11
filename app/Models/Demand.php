@@ -11,6 +11,8 @@ class Demand extends Model
 {
     use HasFactory;
 
+    private static string $status = 'queued';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,9 +21,9 @@ class Demand extends Model
     protected $fillable = [
         'name_project',
         'url',
-        'status'=>'queued',
+        'status',
+        'user_id'
     ];
-
 
     /**
      * Relationships between models User & Demand

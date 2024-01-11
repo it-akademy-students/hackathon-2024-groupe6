@@ -39,17 +39,17 @@ class ErrorRessource extends JsonResource
      * Override constructor to accept parameter
      * @param \Exception|null $exception
      */
-    public function __construct(\Exception $exception = null)
+    public function __construct(\Exception $exception = new \Exception())
     {
         $this->exception = $exception;
         parent::__construct($exception);
     }
 
-    //region METHODS
+    //region METHOD
     public function toArray(Request $request): array
     {
         return [
-            'label' => 'Une erreur est survenue',
+            'label' => 'Une erreur est survenue. Pour plus des details, veuillez consulter le Error Message',
             'errorMessage' => $this -> exception -> getMessage() ?? $this -> customMessage,
             'errorCode' => $this -> exception -> getCode() ?? $this -> customCode
         ];

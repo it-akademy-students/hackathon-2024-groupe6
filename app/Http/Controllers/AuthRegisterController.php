@@ -9,7 +9,6 @@ use App\Http\Resources\Auth\RegisterResource;
 use App\Http\Resources\Error\ErrorRessource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthRegisterController extends Controller
@@ -48,16 +47,17 @@ class AuthRegisterController extends Controller
        $data = $request->validated();
 
        $user = User::where('email', $data['email'])->first();
+       echo('$user');
 
        try
        {
            if (!$user || !Hash::check($data['password'], $user->password))
            {
-               $response = new ErrorRessource();
-               $response -> setMessage('Mot de pas incorrecte.');
-               $response -> setCode(401);
+               $customError = new ErrorRessource();
+               $customError -> setMessage('Mot de pas incorrecte.');
+               $customError -> setCode(401);
 
-               return $response;
+               return $customError;
            }
 
            return new LoginResource($user);
@@ -69,3 +69,4 @@ class AuthRegisterController extends Controller
 
     }
 }
+

@@ -15,7 +15,9 @@ class DemandRequest extends FormRequest
     {
         return [
             'name_project' => 'string|max:250',
-            'url' => 'required|string|regex:~^https://(github|gitlab)\.com/([\w.-]+)/([\w.-]+)\.git$~'
+            'url' => ['required', 'string', 'regex:~^https://(github|gitlab)\.com/([\w.-]+)/([\w.-]+)\.git$~'],
+            'status' => 'string',
+            'user_id' => 'integer'
         ];
     }
 }

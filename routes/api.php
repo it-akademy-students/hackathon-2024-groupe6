@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
 |
+|--------------------------------------------------------------------------
+|Basic route: http://localhost:8000/api/xxx
+|localhost port depends on .env : REDIS.PORT
+|--------------------------------------------------------------------------
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -26,5 +30,8 @@ Route::controller(AuthRegisterController::class)->group(function() {
 });
 
 Route::middleware('auth:sanctum')
-    ->controller(DemandController::class)
-    ->post('/demand', 'create');
+    ->group(function() {
+        Route::controller(DemandController::class)->group(function () {
+            Route::post('/demand',  'store');
+        });
+    });

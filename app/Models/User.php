@@ -48,7 +48,7 @@ class User extends Authenticatable
     /**
      * Relationship between the Demand & User class
      */
-    public function demands() : HasMany
+    public function demand() : HasMany
     {
         return $this -> hasMany('Demand');
     }
