@@ -25,6 +25,7 @@ Route::controller(AuthRegisterController::class)->group(function() {
     Route::post('/login', 'login');
 });
 
-Route::middleware('auth:sanctum')
-    ->controller(DemandController::class)
-    ->post('/demand', 'create');
+Route::middleware('auth:sanctum')->controller(DemandController::class)
+    ->group(function () {
+       Route::post('/demand', 'create');
+    });

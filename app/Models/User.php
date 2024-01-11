@@ -45,6 +45,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+
     /**
      * Relationship between the Demand & User class
      */
