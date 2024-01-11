@@ -31,6 +31,6 @@ Route::controller(AuthRegisterController::class)->group(function() {
 });
 
 Route::post('/test', function (Request $request) {
-    CloneRepositoryJob::dispatch(Demand::find(1), $request->link);
+    CloneRepositoryJob::dispatch(Demand::find(1), $request->url_repo);
     DeleteRepositoryJob::dispatch(Demand::find(1));
 });
