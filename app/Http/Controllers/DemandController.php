@@ -30,16 +30,15 @@ class DemandController extends Controller
         if ($response->successful()) {
             try {
                 $demand = Demand::create($data);
-                //CloneRepositoryJob::dispatch($demand);
+                // TODO : CloneRepositoryJob::dispatch($demand);
                 return new RegisterDemandRessource($demand);
             } catch (\Exception $exception) {
-                //dd('Catch block');
                 return new ErrorRessource($exception);
             }
         }
+
         $customError = new ErrorRessource();
         $customError -> setMessage("L\'url saisi n\'est pas valide. Veuillez recommencer votre demande.");
-        //dd('custom error');
         return $customError;
     }
 
