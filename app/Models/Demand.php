@@ -19,9 +19,10 @@ class Demand extends Model
     protected $fillable = [
         'name_project',
         'url',
-        'status'=>'queued',
+        'status',
+        'repo_path',
+        'branches'
     ];
-
 
     /**
      * Relationships between models User & Demand

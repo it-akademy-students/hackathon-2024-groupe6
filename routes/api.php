@@ -1,9 +1,15 @@
 <?php
 
 use App\Http\Controllers\AuthRegisterController;
+use App\Jobs\CloneRepositoryJob;
+use App\Jobs\DeleteRepositoryJob;
+use App\Models\Demand;
 use App\Http\Controllers\DemandController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +29,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AuthRegisterController::class)->group(function() {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
+});
+
+Route::post('/test', function (Request $request) {
+    CloneRepositoryJob::dispatch(Demand::find(1), $request->url_repo);
+    DeleteRepositoryJob::dispatch(Demand::find(1));
 });
 
 Route::middleware('auth:sanctum')->controller(DemandController::class)
