@@ -17,6 +17,7 @@ class Demand extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'name_project',
         'url',
         'status',

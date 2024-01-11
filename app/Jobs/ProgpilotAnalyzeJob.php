@@ -33,16 +33,15 @@ class ProgpilotAnalyzeJob implements ShouldQueue
         $context = new \progpilot\Context;
         $analyzer = new \progpilot\Analyzer;
 
-        $context->inputs->setFolder(storage_path("app/clones/".$this->demand->repo_path));
+        $context->inputs->setFile("./TEST.php");
 
         try {
             $analyzer->run($context);
         } catch (\Exception $e) {
             echo "Exception : ".$e->getMessage()."\n";
         }
-
         $results = $context->outputs->getResults();
 
-        dd($results);
+        dd('rrr',$results);
     }
 }
