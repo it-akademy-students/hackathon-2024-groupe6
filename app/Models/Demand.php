@@ -24,7 +24,6 @@ class Demand extends Model
         'branches'
     ];
 
-
     /**
      * Relationships between models User & Demand
      */
