@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Demand\DemandRequest;
 use App\Models\Demand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class DemandController extends Controller
 {
@@ -18,9 +20,17 @@ class DemandController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(DemandRequest $request): RegisterDemandRessource|bool
     {
-        //
+        $data = $request->validated();
+        $response = Http::get($data['url']);
+
+        if ($response->successful()) {
+            $demand = Demand::create($data);
+            return new RegisterDemandRessource($demand);
+        }
+
+        return false;
     }
 
     /**
