@@ -15,6 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -42,12 +43,12 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     public function handle(): void
     {
-        Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/clones/') . $repo_name = Str::random(32));
+        Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/public/') . $repo_name = Str::random(32));
 
         $branches = $this->getBranches($repo_name);
 
         $this->demand->update([
-            'repo_path' => '/clones/' . $repo_name,
+            'repo_path' => 'public/' . $repo_name,
             'branches' => $branches
         ]);
 
@@ -69,7 +70,7 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     private function getBranches(string $repo_name): array
     {
-        $process_branches = Process::run('cd ' . storage_path('app/clones/') . $repo_name . ' && git branch -r');
+        $process_branches = Process::run('cd ' . storage_path('app/public/') . $repo_name . ' && git branch -r');
 
         $branches_array = explode("\n", $process_branches->output());
         array_shift($branches_array);

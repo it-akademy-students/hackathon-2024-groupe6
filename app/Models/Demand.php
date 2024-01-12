@@ -18,10 +18,15 @@ class Demand extends Model
      */
     protected $fillable = [
         'name_project',
+        'user_id',
         'url',
         'status',
         'repo_path',
         'branches'
+    ];
+
+    protected $casts = [
+        'branches' => 'array'
     ];
 
     /**
