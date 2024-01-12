@@ -12,14 +12,6 @@ use Illuminate\Support\Facades\Http;
 class DemandController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(DemandRequest $request): RegisterDemandRessource|ErrorRessource
@@ -42,20 +34,10 @@ class DemandController extends Controller
         return $customError;
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Demand $demand)
+    public function getRepositories()
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Demand $demand)
-    {
-        //
+        $demands = Demand::where('user_id', '=', auth('sanctum')->user()->id)->get();
+        return response()->json($demands);
     }
 
     /**

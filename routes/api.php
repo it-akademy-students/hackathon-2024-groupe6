@@ -33,5 +33,6 @@ Route::middleware('auth:sanctum')
     ->group(function() {
         Route::controller(DemandController::class)->group(function () {
             Route::post('/demand',  'store');
+            Route::get('/get-repositories', "getRepositories");
         });
     });
