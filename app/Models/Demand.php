@@ -21,8 +21,10 @@ class Demand extends Model
         'url',
         'status',
         'repo_path',
-        'branches'
+        'branches',
+        'user_id'
     ];
+
 
     /**
      * Relationships between models User & Demand

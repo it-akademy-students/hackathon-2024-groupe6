@@ -10,7 +10,7 @@ class RegisterDemandRessource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-           //TODO : champs de DemandRessource a ajouter
+            'message' => 'Ok, URL enregistrée, en queue pour traitement.'
         ];
     }
 }
