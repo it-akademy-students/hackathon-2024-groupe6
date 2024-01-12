@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Demand\DemandRequest;
 use App\Http\Resources\Demand\RegisterDemandRessource;
 use App\Http\Resources\Error\ErrorRessource;
+use App\Jobs\CloneRepositoryJob;
 use App\Models\Demand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -30,7 +31,7 @@ class DemandController extends Controller
         if ($response->successful()) {
             try {
                 $demand = Demand::create($data);
-                // TODO : CloneRepositoryJob::dispatch($demand);
+                CloneRepositoryJob::dispatch($demand);
                 return new RegisterDemandRessource($demand);
             } catch (\Exception $exception) {
                 return new ErrorRessource($exception);
