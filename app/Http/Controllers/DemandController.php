@@ -38,7 +38,7 @@ class DemandController extends Controller
         }
 
         $customError = new ErrorRessource();
-        $customError -> setMessage("L\'url saisi n\'est pas valide. Veuillez recommencer votre demande.");
+        $customError -> setMessage("L'url saisi n'est pas valide. Veuillez recommencer votre demande.");
         return $customError;
     }
 

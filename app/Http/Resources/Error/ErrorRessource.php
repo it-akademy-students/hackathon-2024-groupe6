@@ -51,7 +51,7 @@ class ErrorRessource extends JsonResource
         return [
             'label' => 'Une erreur est survenue. Pour plus des details, veuillez consulter le Error Message',
             'errorMessage' =>  $this -> customMessage ?? $this -> exception -> getMessage(),
-            'errorCode' => $this -> customCode ?? $this -> exception -> getCode()
+            'errorCode' => $this -> customMessage ? $this ->customCode ?? 0 : $this -> exception -> getCode()
         ];
     }
 }
