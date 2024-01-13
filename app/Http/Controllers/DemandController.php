@@ -33,11 +33,11 @@ class DemandController extends Controller
         $response = Http::get($data['url']);
 
         //if ($response->successful()) {
-            if (!$demand = Demand::where('url', '=', $data['url'])->first()) {
+            //if (!$demand = Demand::where('url', '=', $data['url'])->first()) {
                 $demand = Demand::create($data);
                 CloneRepositoryJob::dispatch($demand, $data['url']);
                 PhpstanJob::dispatch($demand);
-            }
+            //}
             //DeleteRepositoryJob::dispatch($demand->id);
             return new RegisterDemandRessource($demand);
         //}

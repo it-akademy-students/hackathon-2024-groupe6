@@ -3,10 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\Demand;
+use App\Models\PhpstanReport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Process\Pipe;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Process;
@@ -32,15 +34,13 @@ class PhpstanJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //dd(base_path() . '/vendor/bin/phpstan analyse public' . Storage::url($this->demand->repo_path));
-        $ttt = Process::run(base_path() . '/vendor/bin/phpstan analyse public' . Storage::url($this->demand->repo_path));
+        $name_rapport_file = now()->format('d-m-Y-H-i-s') . '-phpstan' . $this->demand->name;
 
-        dd(
-            $ttt->successful(),
-            $ttt->failed(),
-            $ttt->exitCode(),
-            $ttt->output(),
-            $ttt->errorOutput()
-        );
+        Process::run(base_path() . '/vendor/bin/phpstan analyse --level max --error-format=prettyJson ' . base_path(). '/public' . Storage::url($this->demand->repo_path) . ' > ' . storage_path('app/public/') . $this->demand->user_id . '/' . $name_rapport_file . '.json');
+
+        PhpstanReport::create([
+            'demand_id' => $this->demand->id,
+            'url_report' => storage_path('app/public/') . $this->demand->user_id . '/' . $name_rapport_file . '.json'
+        ]);
     }
 }

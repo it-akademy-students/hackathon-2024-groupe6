@@ -43,12 +43,12 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     public function handle(): void
     {
-        Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/public/') . $repo_name = Str::random(32));
+        Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/public/') . $this->demand->user_id . '/' . $repo_name = Str::random(32));
 
         $branches = $this->getBranches($repo_name);
 
         $this->demand->update([
-            'repo_path' => 'public/' . $repo_name,
+            'repo_path' => 'public/' . $this->demand->user_id . '/' . $repo_name,
             'branches' => $branches
         ]);
 
@@ -70,7 +70,7 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     private function getBranches(string $repo_name): array
     {
-        $process_branches = Process::run('cd ' . storage_path('app/public/') . $repo_name . ' && git branch -r');
+        $process_branches = Process::run('cd ' . storage_path('app/public/') . $this->demand->user_id . '/' . $repo_name . ' && git branch -r');
 
         $branches_array = explode("\n", $process_branches->output());
         array_shift($branches_array);
