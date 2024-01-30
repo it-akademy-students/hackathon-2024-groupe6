@@ -39,15 +39,14 @@ class AuthRegisterController extends Controller
     /**
      * Log in a user.
      *
-     * @param  LoginRequest
-     * @return LoginRequest
+     * @param LoginRequest $request
+     * @return LoginResource|ErrorRessource
      */
-    public function login(LoginRequest $request): LoginResource|JsonResponse|ErrorRessource
+    public function login(LoginRequest $request): LoginResource|ErrorRessource
     {
        $data = $request->validated();
 
        $user = User::where('email', $data['email'])->first();
-       echo('$user');
 
        try
        {
