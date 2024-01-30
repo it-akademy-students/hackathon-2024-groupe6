@@ -18,22 +18,13 @@ class DemandController extends Controller
     public function store(DemandRequest $request): RegisterDemandRessource|ErrorRessource
     {
         $data = $request->validated();
-        $response = Http::get($data['url']);
+        $data['user_id'] = auth('sanctum')->user()->id;
 
-        if ($response->successful()) {
-            try {
-                $demand = Demand::create($data);
-                CloneRepositoryJob::dispatch($demand);
-                return new RegisterDemandRessource($demand);
-            } catch (\Exception $exception) {
-                return new ErrorRessource($exception);
-            }
-        }
-
-        $customError = new ErrorRessource();
-        $customError -> setMessage("L'url saisi n'est pas valide. Veuillez recommencer votre demande.");
-        return $customError;
+        $demand = Demand::create($data);
+        //CloneRepositoryJob::dispatch($demand, $data['url']);
+        return new RegisterDemandRessource($demand);
     }
+
 
     public function getRepositories()
     {
