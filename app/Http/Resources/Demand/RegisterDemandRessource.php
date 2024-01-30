@@ -10,7 +10,12 @@ class RegisterDemandRessource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'message' => 'Ok, URL enregistrée, en queue pour traitement.'
+            'name_project' => $this->name_project,
+            'url' => $this->url,
+            'user_id' => $this->user_id,
+            'id' => $this->id,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
         ];
     }
 }

@@ -18,12 +18,12 @@ class DemandController extends Controller
     public function store(DemandRequest $request): RegisterDemandRessource|ErrorRessource
     {
         $data = $request->validated();
+        $data['user_id'] = auth('sanctum')->user()->id;
 
         $demand = Demand::create($data);
-        CloneRepositoryJob::dispatch($demand);
-        return new RegisterDemandRessource($demand);}
-
-
+        //CloneRepositoryJob::dispatch($demand, $data['url']);
+        return new RegisterDemandRessource($demand);
+    }
 
 
     public function getRepositories()
