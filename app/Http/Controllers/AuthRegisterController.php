@@ -36,7 +36,6 @@ class AuthRegisterController extends Controller
 
        $user = User::where('email', $data['email'])->first();
 
-       //dd($data, $user);
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return response()->json([
                 'message' => 'Invalid login details'

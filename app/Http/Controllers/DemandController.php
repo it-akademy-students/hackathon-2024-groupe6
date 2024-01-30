@@ -10,27 +10,33 @@ use App\Jobs\DeleteRepositoryJob;
 use App\Jobs\PhpstanJob;
 use App\Models\Demand;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class DemandController extends Controller
 {
     /**
+     * @return JsonResponse
      * Display a listing of the resource.
      */
-    public function index()
+    public function getRepositories(): JsonResponse
     {
-        //
+        $repositories = Demand::where('user_id', auth('sanctum')->user()->id)
+            ->get();
+        return response()->json($repositories);
     }
 
     /**
+     * @param DemandRequest $request
+     * @return RegisterDemandRessource|GeneralErrorsResources|bool
      * Show the form for creating a new resource.
      */
     public function create(DemandRequest $request): RegisterDemandRessource|bool|GeneralErrorsResources
     {
         $data = $request->validated();
         $data['user_id'] = auth('sanctum')->user()->id;
-        $response = Http::get($data['url']);
+        //$response = Http::get($data['url_repo']);
 
         //if ($response->successful()) {
             //if (!$demand = Demand::where('url', '=', $data['url'])->first()) {
