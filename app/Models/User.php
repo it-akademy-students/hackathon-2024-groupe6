@@ -23,6 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'address', 'zip_code', 'city', 'country',
+        'tel',
+        'description'
     ];
 
     /**
@@ -48,9 +51,10 @@ class User extends Authenticatable
 
     /**
      * Relationship between the Demand & User class
+     * @return HasMany
      */
     public function demand() : HasMany
     {
-        return $this -> hasMany('Demand');
+        return $this->hasMany('Demand');
     }
 }
