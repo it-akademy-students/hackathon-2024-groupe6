@@ -17,14 +17,14 @@ class Demand extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name_project',
-        'url',
-        'status',
         'repo_path',
         'branches',
         'user_id'
     ];
 
+    protected $casts = [
+        'branches' => 'array'
+    ];
 
     /**
      * Relationships between models User & Demand
