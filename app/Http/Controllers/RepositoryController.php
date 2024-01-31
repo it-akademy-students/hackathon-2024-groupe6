@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Demand\DemandRequest;
-use App\Http\Requests\Demand\RepositoryRequest;
+use App\Http\Requests\RepositoryRequest;
 use App\Http\Resources\Demand\RepositoryResource;
 use App\Http\Resources\Error\ErrorRessource;
 use App\Models\Repository;
