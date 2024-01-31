@@ -8,6 +8,7 @@ use App\Http\Resources\Auth\LoginResource;
 use App\Http\Resources\Auth\RegisterResource;
 use App\Http\Resources\Error\ErrorRessource;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,7 +30,7 @@ class AuthRegisterController extends Controller
             $user = User::create($data);
             return new RegisterResource($user);
         }
-        catch (\Exception $exception)
+        catch (Exception $exception)
         {
             return new ErrorRessource($exception);
         }
@@ -61,7 +62,7 @@ class AuthRegisterController extends Controller
 
            return new LoginResource($user);
        }
-       catch (\Exception $exception)
+       catch (Exception $exception)
        {
            return new ErrorRessource($exception);
        }

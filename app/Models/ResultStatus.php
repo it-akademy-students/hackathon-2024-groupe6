@@ -2,7 +2,12 @@
 
 namespace App\Models;
 
-class ResultStatus
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ResultStatus extends Model
 {
+    use HasFactory;
+
 
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Demand;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DemandRequest extends FormRequest
+class RepositoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,7 +16,6 @@ class DemandRequest extends FormRequest
         return [
             'name_project' => 'string|max:250',
             'url' => ['required', 'string'],
-
         ];
     }
 }

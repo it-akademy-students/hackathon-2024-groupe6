@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('repositories', function (Blueprint $table) {
+        Schema::create('result_status', function (Blueprint $table) {
             $table->id();
-            $table->string('name_project');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('url');
+            $table->string('success');
+            $table->string('fail');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('repositories');
+        Schema::dropIfExists('result_status');
     }
 };
