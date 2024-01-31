@@ -8,6 +8,7 @@ use App\Http\Resources\Demand\RepositoryResource;
 use App\Http\Resources\Error\ErrorRessource;
 use App\Models\Repository;
 use App\Models\TestRequest;
+use App\Jobs\CloneRepositoryJob;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -24,9 +25,9 @@ class RepositoryController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth('sanctum')->user()->id;
 
-        $repositories = Repository::create($data);
-        //CloneRepositoryJob::dispatch($demand, $data['url']);
-        return new RepositoryResource($repositories);
+        $repository = Repository::create($data);
+        CloneRepositoryJob::dispatch($repository, $data['url']);
+        return new RepositoryResource($repository);
     }
 
     /**

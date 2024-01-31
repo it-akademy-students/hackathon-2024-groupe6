@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Mail\AnalyzeBeginMail;
 use App\Mail\AnalyzeFailedMail;
-use App\Models\Demand;
+use App\Models\Repository;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeEncrypted;
@@ -22,8 +22,8 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /** @var Demand $demand */
-    public Demand $demand;
+    /** @var Repository $repository */
+    public Repository $repository;
 
     /** @var string $repo_link */
     public string $repo_link;
@@ -31,9 +31,9 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
     /**
      * Create a new job instance.
      */
-    public function __construct(Demand $demand, string $repo_link)
+    public function __construct(Repository $repository, string $repo_link)
     {
-        $this->demand = $demand;
+        $this->repository = $repository;
         $this->repo_link = $repo_link;
     }
 
@@ -42,16 +42,16 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     public function handle(): void
     {
-        Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/clones/') . $repo_name = Str::random(32));
+        Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/public/') . $this->repository->user_id . '/' . $repo_name = Str::random(32));
 
         $branches = $this->getBranches($repo_name);
 
-        $this->demand->update([
-            'repo_path' => '/clones/' . $repo_name,
+        $this->repository->update([
+            'repo_path' => 'public/' . $repo_name,
             'branches' => $branches
         ]);
 
-        Mail::to(User::find($this->demand->user_id)->email)->send(new AnalyzeBeginMail());
+        Mail::to(User::find($this->repository->user_id)->email)->send(new AnalyzeBeginMail());
     }
 
     /**
@@ -59,7 +59,7 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     public function failed(Throwable $exception): void
     {
-        Mail::to(User::find($this->demand->user_id)->email)->send(new AnalyzeFailedMail($exception));
+        Mail::to(User::find($this->repository->user_id)->email)->send(new AnalyzeFailedMail($exception));
     }
 
     /**
@@ -69,7 +69,7 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     private function getBranches(string $repo_name): array
     {
-        $process_branches = Process::run('cd ' . storage_path('app/clones/') . $repo_name . ' && git branch -r');
+        $process_branches = Process::run('cd ' . storage_path('app/public/') . $this->repository->user_id . '/' . $repo_name . ' && git branch -r');
 
         $branches_array = explode("\n", $process_branches->output());
         array_shift($branches_array);

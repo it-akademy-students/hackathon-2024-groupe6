@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthRegisterController;
-use App\Http\Controllers\DemandController;
+use App\Http\Controllers\RepositoryController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

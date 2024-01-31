@@ -11,7 +11,7 @@ class Repository extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name_project',
+        'name_project','repo_path','branches',
         'url', 'user_id'
     ];
 

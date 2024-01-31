@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('phpstan_results', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('demand_id');
-            $table->foreign('demand_id')->references('id')->on('demands');
+            $table->unsignedBigInteger('test_request_id');
+            $table->foreign('test_request_id')->references('id')->on('test_requests');
             $table->unsignedBigInteger('result_status_id');
             $table->foreign('result_status_id')->references('id')->on('result_status');
             $table->string('path_result');
