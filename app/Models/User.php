@@ -53,8 +53,8 @@ class User extends Authenticatable
      * Relationship between the Demand & User class
      * @return HasMany
      */
-    public function demand() : HasMany
+    public function repositories(): HasMany
     {
-        return $this->hasMany('Demand');
+        return $this->hasMany('Repository');
     }
 }

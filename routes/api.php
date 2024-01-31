@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthRegisterController;
 use App\Http\Controllers\DemandController;
-use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,8 +31,8 @@ Route::controller(AuthRegisterController::class)->group(function() {
 
 Route::middleware('auth:sanctum')
     ->group(function() {
-        Route::controller(DemandController::class)->group(function () {
-            Route::post('/demand', 'store');
+        Route::controller(RepositoryController::class)->group(function () {
+            Route::post('/demand',  'store');
             Route::get('/get-repositories', "getRepositories");
         });
 

@@ -5,17 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
-class Result extends Model
+class PhpstanResult extends Model
 {
     use HasFactory;
 
+    protected $fillable= [
+        'path_result'
+    ];
+
     /**
-     * Relationships between models Result & Demand
+     * Relationships between models PhpstanResult & TestRequest
      */
-    public function demand() : BelongsTo
+    public function testRequest(): BelongsTo
     {
-        return $this->belongsTo('Demand');
+        return $this->belongsTo('TestRequest');
+    }
+
+    public function resultStatus(): HasOne
+    {
+        return $this->hasOne('ResultStatus');
     }
 }

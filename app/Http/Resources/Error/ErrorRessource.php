@@ -2,14 +2,15 @@
 
 namespace App\Http\Resources\Error;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ErrorRessource extends JsonResource
 {
     //region PROPERTIES
-    /** @var \Exception $exception */
-    private \Exception $exception;
+    /** @var Exception $exception */
+    private Exception $exception;
 
     /** @var $customMessage */
     private string $customMessage;
@@ -37,9 +38,9 @@ class ErrorRessource extends JsonResource
     //region CONSTRUCTOR
     /**
      * Override constructor to accept parameter
-     * @param \Exception|null $exception
+     * @param Exception|null $exception
      */
-    public function __construct(\Exception $exception = new \Exception())
+    public function __construct(Exception $exception = new Exception())
     {
         $this->exception = $exception;
         parent::__construct($exception);
