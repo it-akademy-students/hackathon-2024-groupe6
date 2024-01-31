@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Demand extends Model
+class TestRequest extends Model
 {
     use HasFactory;
 
@@ -20,9 +20,6 @@ class Demand extends Model
         'name_project',
         'user_id',
         'url',
-        'status',
-        'repo_path',
-        'branches'
     ];
 
     protected $casts = [
@@ -32,7 +29,7 @@ class Demand extends Model
     /**
      * Relationships between models User & Demand
      */
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo('User');
     }
@@ -40,8 +37,8 @@ class Demand extends Model
     /**
      * Relationships between models Result & Demand
      */
-    public function result() : HasOne
+    public function phpstanResult(): HasOne
     {
-        return $this->hasOne('Result');
+        return $this->hasOne('PhpstanResult');
     }
 }

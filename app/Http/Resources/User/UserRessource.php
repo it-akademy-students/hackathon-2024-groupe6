@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Auth;
+namespace App\Http\Resources\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RegisterResource extends JsonResource
+class UserRessource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -13,7 +13,12 @@ class RegisterResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "email" => $this->email,
-            "access_token" => $this->createToken("access_token")->plainTextToken,
+            'address' => $this->address,
+            'zip_code' => $this->zip_code,
+            'city' => $this->city,
+            'country' => $this->country,
+            'tel' => $this->tel,
+            'description' => $this->description,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

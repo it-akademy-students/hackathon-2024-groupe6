@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('demands', function (Blueprint $table) {
-            $table->string('repo_path')->nullable();
-            $table->json('branches')->nullable();
+        Schema::create('result_status', function (Blueprint $table) {
+            $table->id();
+            $table->string('success');
+            $table->string('fail');
+            $table->timestamps();
         });
     }
 
@@ -22,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('demands', function (Blueprint $table) {
-            $table->dropColumn('repo_path');
-            $table->dropColumn('branches');
-        });
+        Schema::dropIfExists('result_status');
     }
 };

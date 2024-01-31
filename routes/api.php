@@ -1,15 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthRegisterController;
-use App\Jobs\CloneRepositoryJob;
-use App\Jobs\DeleteRepositoryJob;
-use App\Models\Demand;
-use App\Http\Controllers\DemandController;
+use App\Http\Controllers\RepositoryController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +26,15 @@ Route::controller(AuthRegisterController::class)->group(function() {
     Route::post('/login', 'login');
 });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::controller(DemandController::class)->group(function () {
-        Route::post('/demand', 'create');
-        Route::get('/get-repositories', 'getRepositories');
+Route::middleware('auth:sanctum')
+    ->group(function() {
+        Route::controller(RepositoryController::class)->group(function () {
+            Route::post('/demand',  'store');
+            Route::get('/get-repositories', "getRepositories");
+        });
+
+        Route::controller(UsersController::class)->prefix('/user')->group(function () {
+            Route::get('/get-authenticated', 'getAuthUser');
+            Route::post('/update', 'update');
+        });
     });
-});

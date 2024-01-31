@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('demands', function (Blueprint $table) {
+        Schema::create('test_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('name_project')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('url');
-            $table->enum('status', ['queued', 'processing', 'error', 'finished']);
+            $table->unsignedBigInteger('repo_id');
+            $table->foreign('repo_id')->references('id')->on('repositories');
+            $table->enum('status', ['processing', 'error', 'finished']);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('demands');
+        Schema::dropIfExists('test_requests');
     }
 };
