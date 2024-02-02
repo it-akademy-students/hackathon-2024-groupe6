@@ -47,7 +47,7 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
         $branches = $this->getBranches($repo_name);
 
         $this->repository->update([
-            'repo_path' => 'public/' . $repo_name,
+            'repo_path' => 'public/' . $user_id . $repo_name,
             'branches' => $branches
         ]);
 

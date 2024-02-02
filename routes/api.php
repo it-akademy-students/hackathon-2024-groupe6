@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthRegisterController;
 use App\Http\Controllers\RepositoryController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\TestRequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,14 +16,14 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
 |
-|--------------------------------------------------------------------------
-|Basic route: http://localhost:8000/api/xxx
-|localhost port depends on .env : REDIS.PORT
-|--------------------------------------------------------------------------
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(TestRequestController::class)->group(function(){
+    Route::post('/run-tests', 'runTests');
 });
 
 Route::controller(AuthRegisterController::class)->group(function() {
@@ -41,5 +42,9 @@ Route::middleware('auth:sanctum')
             Route::get('/get-authenticated', 'getAuthUser');
             Route::post('/update', 'update');
         });
+
+        /*Route::controller(TestRequestController::class)->group(function(){
+            Route::post('/run-tests', 'runTests');
+        });*/
     });
 

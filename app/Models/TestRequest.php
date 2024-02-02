@@ -17,12 +17,13 @@ class TestRequest extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name_project',
-        'url',
+        'status',
+        'repo_id',
+        'user_id',
     ];
 
     /**
-     * Relationships between models User & Demand
+     * Relationships between models User & TestRequest
      */
     public function user(): BelongsTo
     {
@@ -30,9 +31,18 @@ class TestRequest extends Model
     }
 
     /**
-     * Relationships between models Result & Demand
+     * Relationships between models Result & TestRequest
      */
     public function phpstanResult(): HasOne
+    {
+        return $this->hasOne('PhpstanResult');
+    }
+
+
+    /**
+     * Relationships between models Result & TestRequest
+     */
+    public function phpSecurityCheckerResult(): HasOne
     {
         return $this->hasOne('PhpstanResult');
     }
