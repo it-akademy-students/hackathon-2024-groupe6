@@ -18,13 +18,13 @@ class TestRequestController extends Controller
    
    public function runTests(Request $request)
    {
-       $repository = Repository::find(13);
+       $repository = Repository::find($request->repository_id);
        $user_id = auth('sanctum')->user()->id;
    
        $test_request = TestRequest::create([
            'repo_id' => $repository->id,
            'user_id' => $user_id,
-           'status' => 'processing'
+           'status' => 'processing',
        ]);
    
        if ($request->phpstan) {

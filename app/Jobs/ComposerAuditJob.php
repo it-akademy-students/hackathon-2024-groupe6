@@ -36,7 +36,7 @@ class ComposerAuditJob implements  ShouldQueue, ShouldBeEncrypted
     
     public function handle()
     {
-        $repoPath = storage_path('app/') . $this->repository->repo_path;
+        $repoPath = base_path() . $this->repository->repo_path;
         
         // Définir les variables d'environnement HOME et COMPOSER_HOME
         $environment = [
@@ -44,7 +44,7 @@ class ComposerAuditJob implements  ShouldQueue, ShouldBeEncrypted
             'COMPOSER_HOME' => env('COMPOSER_HOME'), 
         ];
 
-        $command = 'cd ' . $repoPath . ' && /opt/homebrew/bin/php /usr/local/bin/composer audit --format=json > audit.json';
+        $command = 'cd ' . $repoPath . ' && /opt/homebrew/bin/php /usr/local/bin/composer install && /opt/homebrew/bin/php /usr/local/bin/composer audit --format=json > audit.json';
 
         $process = Process::fromShellCommandline($command, null, $environment);
         $process->run();
@@ -53,11 +53,11 @@ class ComposerAuditJob implements  ShouldQueue, ShouldBeEncrypted
         if ($process->isSuccessful()) {
             // Output de la commande
             $output = $process->getOutput();
-            echo $output;
+            echo ('ok :' . $output);
         } else {
             // Erreur de la commande
             $error = $process->getErrorOutput();
-            echo $error;
+            echo ('error : ' . $error);
         }
     }
 }

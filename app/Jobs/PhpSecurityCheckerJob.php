@@ -40,7 +40,7 @@ class PhpSecurityCheckerJob implements ShouldQueue, ShouldBeEncrypted
      */
     public function handle()
     {
-        $result = Process::run( base_path() . '/tools/local-php-security-checker --format=json --path='. storage_path('app/') . $this->repository->repo_path);
+        $result = Process::run( base_path() . '/tools/local-php-security-checker --format=json --path='. $this->repository->repo_path);
        
         if($result){
             echo "ok";

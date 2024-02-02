@@ -42,14 +42,15 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
      */
     public function handle(): void
     {
-        Process::run('git clone ' . $this->repo_link . ' ' . storage_path('app/public/') . $this->repository->user_id . '/' . $repo_name = Str::random(32));
+        Process::run('git clone ' . $this->repo_link . ' ' . storage_path('/app/public/') . $this->repository->user_id . '/' . $repo_name = Str::random(32));
 
         $branches = $this->getBranches($repo_name);
 
         $this->repository->update([
-            'repo_path' => 'public/' . $user_id . $repo_name,
+            'repo_path' => '/storage/app/public/' . $this->repository->user_id . '/' . $repo_name,
             'branches' => $branches
         ]);
+
 
         Mail::to(User::find($this->repository->user_id)->email)->send(new AnalyzeBeginMail());
     }
