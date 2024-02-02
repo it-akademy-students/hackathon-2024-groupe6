@@ -40,8 +40,8 @@ class ComposerAuditJob implements  ShouldQueue, ShouldBeEncrypted
         
         // Définir les variables d'environnement HOME et COMPOSER_HOME
         $environment = [
-            'HOME' => env('HOME'),  // Ajoutez votre chemin d'accès HOME si vous l'avez défini
-            'COMPOSER_HOME' => env('COMPOSER_HOME'),  // Ajoutez votre chemin d'accès COMPOSER_HOME si vous l'avez défini
+            'HOME' => env('HOME'),  
+            'COMPOSER_HOME' => env('COMPOSER_HOME'), 
         ];
 
         $command = 'cd ' . $repoPath . ' && /opt/homebrew/bin/php /usr/local/bin/composer audit --format=json > audit.json';
