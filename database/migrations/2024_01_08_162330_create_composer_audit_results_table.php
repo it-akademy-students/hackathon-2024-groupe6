@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('phpsecuritychecker_results', function (Blueprint $table) {
+        Schema::create('composer_audit_results', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('test_request_id');
             $table->foreign('test_request_id')->references('id')->on('test_requests');
