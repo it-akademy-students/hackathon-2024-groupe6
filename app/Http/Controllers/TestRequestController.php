@@ -2,29 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Demand\DemandRequest;
-use App\Http\Resources\Demand\RepositoryResource;
-use App\Http\Resources\Error\ErrorRessource;
-use App\Jobs\CloneRepositoryJob;
+use App\Jobs\PhpstanJob;
+use App\Models\Repository;
 use App\Models\TestRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class TestRequestController extends Controller
 {
     /**
-     * Update the specified resource in storage.
+     * Run the tests
+     * @param Request $request
+     * @return void
      */
-    public function update(Request $request, TestRequest $demand)
+    public function runTests(Request $request)
     {
-        //
+        $repository = Repository::find($request->repository_id);
+        $user_id = auth('sanctum')->user()->id;
+
+        $test_request = TestRequest::create([
+            'repo_id' => $repository->id,
+            'user_id' => $user_id,
+            'status' => 'processing'
+        ]);
+
+        if ($request->phpstan) {
+            PhpstanJob::dispatch($repository, $test_request, $request->branch);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TestRequest $demand)
-    {
-        //
-    }
 }

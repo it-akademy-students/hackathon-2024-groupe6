@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Demand;
+namespace App\Http\Requests\Repository;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DemandRequest extends FormRequest
+class RepositoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
+      return true;
         if(auth('sanctum')->check()) return true;
         return false;
     }

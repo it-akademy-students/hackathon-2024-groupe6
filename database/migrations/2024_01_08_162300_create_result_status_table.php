@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('result_status', function (Blueprint $table) {
             $table->id();
-            $table->string('success');
-            $table->string('fail');
+            $table->string('status');
             $table->timestamps();
         });
     }
