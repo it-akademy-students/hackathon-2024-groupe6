@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthRegisterController;
-use App\Http\Controllers\PhpstanController;
 use App\Http\Controllers\RepositoryController;
 use App\Http\Controllers\TestRequestController;
 use App\Http\Controllers\UsersController;

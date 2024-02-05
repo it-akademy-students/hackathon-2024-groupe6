@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Repository;
+use Illuminate\Process\Pipe;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -68,6 +69,18 @@ class HandleGit
   public function gitFetchOrigin(): void
   {
     Process::run('cd ' . $this->base_path_repository . ' && git fetch --all');
+  }
+
+  /**
+   * Change branch command
+   * @retrun ProcessResult
+   */
+  public function gitCheckout(string $branch): \Illuminate\Contracts\Process\ProcessResult
+  {
+    Process::pipe(function (Pipe $pipe) use ($branch) {
+      $pipe->run('cd ' . $this->base_path_repository);
+      $pipe->run('git checkout ' . $branch);
+    });
   }
 
   /**

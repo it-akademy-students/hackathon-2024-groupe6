@@ -13,7 +13,7 @@ class Repository extends Model
 
     protected $fillable = [
         'name_project','repo_path','branches',
-        'url', 'user_id'
+        'url', 'user_id', 'id',
     ];
 
     protected $casts = [

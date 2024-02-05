@@ -48,4 +48,13 @@ class TestRequest extends Model
     {
         return $this->belongsTo('Repository');
     }
+
+
+    /**
+     * Relationships between models Result & TestRequest
+     */
+    public function phpSecurityCheckerResult(): HasOne
+    {
+        return $this->hasOne('PhpstanResult');
+    }
 }
