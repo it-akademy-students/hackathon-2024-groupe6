@@ -30,6 +30,7 @@ class TestRequestController extends Controller
       $test_request = TestRequest::create([
           'repo_id' => $repository->id,
           'user_id' => $user_id,
+          'branch' => $request->branch,
 
       ]);
 

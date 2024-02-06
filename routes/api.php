@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthRegisterController;
 use App\Http\Controllers\RepositoryController;
 use App\Http\Controllers\TestRequestController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ResultController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/run-tests', 'runTests');
 });*/
 //Route::get('/git-fetch-origin', [RepositoryController::class, 'gitFetchOrigin']);
-
+Route::get('/get-results-by-branch',[ResultController::class, 'getResultByBranch']);
 
 Route::controller(AuthRegisterController::class)->group(function() {
     Route::post('/register', 'register');

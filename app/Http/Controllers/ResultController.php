@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Result;
+use App\Models\TestRequest;
 use Illuminate\Http\Request;
 
 class ResultController extends Controller
@@ -63,4 +64,16 @@ class ResultController extends Controller
     {
         //
     }
+
+    public function getResultByBranch(Request $request)
+    {
+     $results = TestRequest::where('user_id', '=', 1)
+     ->where('branch','=', $request->get('branch'))
+     ->where('repo_id', '=', $request->get('repo_id'))
+     ->with('phpstanResult', 'phpSecurityCheckerResult','composerAuditResult')
+     ->get();
+     $phpstan = $results->groupBy('phpstanResult');
+    return response()->json($phpstan);
+  } 
+    
 }

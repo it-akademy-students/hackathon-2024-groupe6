@@ -50,11 +50,10 @@ class PhpstanJob implements ShouldQueue
             'test_request_id' => $this->testRequest->id,
             'result_status_id' => 1,
             'path_result' => $phpstan_result_path = storage_path('app/public/') . $this->repository->user_id . '/' . $name_rapport_file . '.json',
-            'branch' => $this->branch
         ]);
 
         $handleGit = new HandleGit($this->repository);
-        $handleGit->gitCheckout($this->branch);
+        $handleGit->gitCheckout($this->testRequest->branch);
 
         Process::run(
             base_path()

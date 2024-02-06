@@ -61,7 +61,7 @@ class PhpSecurityCheckerJob implements ShouldQueue
         ]);
 
         $handleGit = new HandleGit($this->repository);
-        $handleGit->gitCheckout($this->branch);
+        $handleGit->gitCheckout($this->testRequest->branch);
 
         $result = Process::run( base_path() . '/tools/local-php-security-checker  --path='. $this->repository->repo_path . '--format=json >'. $phpsecuritychecker_result_path);
        

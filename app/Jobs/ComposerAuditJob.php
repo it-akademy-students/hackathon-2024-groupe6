@@ -58,7 +58,7 @@ class ComposerAuditJob implements  ShouldQueue, ShouldBeEncrypted
         ]);
 
         $handleGit = new HandleGit($this->repository);
-        $handleGit->gitCheckout($this->branch);
+        $handleGit->gitCheckout($this->testRequest->branch);
         
         // Définir les variables d'environnement HOME et COMPOSER_HOME
         $environment = [
@@ -90,6 +90,6 @@ class ComposerAuditJob implements  ShouldQueue, ShouldBeEncrypted
 
     public function failed()
     {
-        
+
     }
 }

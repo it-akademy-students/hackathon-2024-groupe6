@@ -15,7 +15,7 @@ class PhpSecurityCheckerResult extends Model
     protected $table = 'phpsecuritychecker_results';
 
     protected $fillable= [
-        'test_request_id', 'result_status_id', 'path_result', 'branch'
+        'test_request_id', 'result_status_id', 'path_result'
     ];
 
     /**
