@@ -11,9 +11,16 @@ To get started with this project, follow these steps:
 Clone the project: git clone https://github.com/it-akademy-students/hackathon-2024-groupe6.git
 Install dependencies: composer install and npm install
 Configure the Environment: Copy the .env.example file to .env and configure the database information and other necessary parameters.
+Install PHP dependencies with composer install
 Generate Application Key: php artisan key:generate
+Symlink storage : php artisan storage:link 
 Migrate Database: php artisan migrate
 Launch the Application: php artisan serve for the backend and npm run dev for the frontend.
+Run the command: 
+```bash
+which php
+```
+ and copy and paste the output of the command into the first line of the ```vendor/bin/phpstan``` file as in this example ```#!/opt/homebrew/bin/php```
 
 ### Prerequisites
 
@@ -33,7 +40,6 @@ Git - Git is used for version control. Install Git to clone and contribute to th
 A step by step series of examples that tell you how to get a development environment running
 
 Clone the repository with git clone https://github.com/it-akademy-students/hackathon-2024-groupe6.git
-Install PHP dependencies with composer install
 Install JavaScript dependencies with npm install
 Configure your .env file with your database settings
 Generate a Laravel application key with php artisan key:generate
