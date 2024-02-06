@@ -10,6 +10,10 @@ use App\Jobs\PhpSecurityCheckerJob;
 use App\Jobs\ComposerAuditJob;
 use App\Models\TestRequest;
 use Illuminate\Http\Request;
+use App\Mail\AnalyzeBeginMail;
+use App\Mail\AnalyzeFailedMail;
+use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 
 class TestRequestController extends Controller
 {
@@ -20,26 +24,31 @@ class TestRequestController extends Controller
      */
     public function runTests(Request $request)
     {
-        $repository = Repository::find($request->repository_id);
-        $user_id = auth('sanctum')->user()->id;
+      $repository = Repository::find($request->repository_id);
+      $user_id = auth('sanctum')->user()->id;
 
-        $test_request = TestRequest::create([
-            'repo_id' => $repository->id,
-            'user_id' => $user_id,
-            'status' => 'processing'
-        ]);
+      $test_request = TestRequest::create([
+          'repo_id' => $repository->id,
+          'user_id' => $user_id,
 
-        if ($request->phpstan) {
-            PhpstanJob::dispatch($repository, $test_request, $request->branch);
-        }
+      ]);
+
+      if ($request->phpstan) {
+          PhpstanJob::dispatch($repository, $test_request, $request->branch);
+      }
 
       if ($request->php_security_checker) {
-        PhpSecurityCheckerJob::dispatch($repository);
+        PhpSecurityCheckerJob::dispatch($repository ,$test_request, $request->branch);
       }
 
       if ($request->composer_audit) {
-        ComposerAuditJob::dispatch($repository);
+        ComposerAuditJob::dispatch($repository, $test_request, $request->branch);
       }
+
+      Mail::to(User::find($repository->user_id)->email)->send(new AnalyzeBeginMail());
+
+   
+      
     }
 
 }

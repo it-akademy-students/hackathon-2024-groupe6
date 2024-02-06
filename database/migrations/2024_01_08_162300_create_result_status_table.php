@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('result_status', function (Blueprint $table) {
             $table->id();
-            $table->string('status');
+            $table->enum('status', $this->visibilityOptions());
             $table->timestamps();
         });
     }
@@ -25,4 +25,14 @@ return new class extends Migration
     {
         Schema::dropIfExists('result_status');
     }
+
+    private function visibilityOptions(): array
+    {
+        $options = [];
+        foreach (config('result-status.status') as $option){
+            $options[] = $option;
+        }
+        return $options;
+    }
+
 };

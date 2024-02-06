@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('result_status_id');
             $table->foreign('result_status_id')->references('id')->on('result_status');
             $table->string('path_result');
+            $table->string('branch');
             $table->timestamps();
         });
     }
