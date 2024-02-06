@@ -10,7 +10,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Process\Pipe;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Process;
@@ -56,8 +55,6 @@ class PhpstanJob implements ShouldQueue
 
         $handleGit = new HandleGit($this->repository);
         $handleGit->gitCheckout($this->branch);
-
-        //Process::run('cd ' . $base_path_repository . ' && git checkout ' . $this->branch);
 
         Process::run(
             base_path()

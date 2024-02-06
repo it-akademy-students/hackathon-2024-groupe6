@@ -73,13 +73,13 @@ class HandleGit
 
   /**
    * Change branch command
-   * @retrun ProcessResult
+   * @retrun void
    */
-  public function gitCheckout(string $branch): \Illuminate\Contracts\Process\ProcessResult
+  public function gitCheckout(string $branch): void
   {
     Process::pipe(function (Pipe $pipe) use ($branch) {
-      $pipe->run('cd ' . $this->base_path_repository);
-      $pipe->run('git checkout ' . $branch);
+      $pipe->command('cd ' . $this->base_path_repository);
+      $pipe->command('git checkout ' . $branch);
     });
   }
 
