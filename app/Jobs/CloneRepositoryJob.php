@@ -44,8 +44,6 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
         $handleGit->gitClone();
         $handleGit->setRandomRepoName();
         $handleGit->getBranches();
-
-        Mail::to(User::find($this->repository->user_id)->email)->send(new AnalyzeBeginMail());
     }
 
     /**

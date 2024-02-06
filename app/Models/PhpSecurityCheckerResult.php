@@ -12,8 +12,10 @@ class PhpSecurityCheckerResult extends Model
 {
     use HasFactory;
 
+    protected $table = 'phpsecuritychecker_results';
+
     protected $fillable= [
-        'path_result'
+        'test_request_id', 'result_status_id', 'path_result', 'branch'
     ];
 
     /**

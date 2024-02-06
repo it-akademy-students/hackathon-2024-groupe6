@@ -5,6 +5,9 @@ namespace App\Jobs;
 use App\Mail\AnalyzeBeginMail;
 use App\Mail\AnalyzeFailedMail;
 use App\Models\Repository;
+use App\Models\TestRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Models\PhpSecurityCheckerResult;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeEncrypted;
@@ -17,30 +20,50 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
 use Throwable;
+use App\Services\HandleGit;
 
-class PhpSecurityCheckerJob implements ShouldQueue, ShouldBeEncrypted
+class PhpSecurityCheckerJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /** @var Repository $repository */
     public Repository $repository;
 
+      /** @var TestRequest $testRequest */
+      public TestRequest $testRequest;
+
+      /** @var string $branch */
+      public string $branch;
+
     /**
      * Create a new job instance.
      */
-    public function __construct(Repository $repository)
+    public function __construct(Repository $repository, TestRequest $testRequest, string $branch)
     {
         $this->repository = $repository;
+        $this->testRequest = $testRequest;
+        $this->branch = $branch;
     }
 
-    /**
-     * Start the PHP Security Checker Test 
-     * @param Repository $repository
-     * @return output
+     /**
+     * Execute the job.
      */
-    public function handle()
+    public function handle():void
     {
-        $result = Process::run( base_path() . '/tools/local-php-security-checker --format=json --path='. $this->repository->repo_path);
+        $name_rapport_file = now()->format('d-m-Y-H-i-s') . '-phpSecurityChecker' . $this->repository->name;
+        $base_path_repository = base_path() . '/public' . Storage::url($this->repository->repo_path);
+
+        PhpSecurityCheckerResult::create([
+            'test_request_id' => $this->testRequest->id,
+            'result_status_id' => 1,
+            'path_result' => $phpsecuritychecker_result_path = storage_path('app/public/') . $this->repository->user_id . '/' . $name_rapport_file . '.json',
+            'branch' => $this->branch
+        ]);
+
+        $handleGit = new HandleGit($this->repository);
+        $handleGit->gitCheckout($this->branch);
+
+        $result = Process::run( base_path() . '/tools/local-php-security-checker  --path='. $this->repository->repo_path . '--format=json >'. $phpsecuritychecker_result_path);
        
         if($result){
             echo "ok";

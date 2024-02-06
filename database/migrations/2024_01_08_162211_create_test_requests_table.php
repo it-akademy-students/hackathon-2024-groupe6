@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('repo_id');
             $table->foreign('repo_id')->references('id')->on('repositories');
-            $table->enum('status', ['processing', 'error', 'finished']);
             $table->timestamps();
         });
     }
