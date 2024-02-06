@@ -7,14 +7,8 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     findUnusedBaselineEntry="true"
     findUnusedCode="true"
-    errorBaseline="your-baseline.xml"
 >
     <projectFiles>
-        <directory name="app" />
-        <directory name="database/factories" />
-        <directory name="database/seeders" />
-        <ignoreFiles>
-            <directory name="vendor" />
-        </ignoreFiles>
+        <directory name="public/storage/1/XwZjSw3ZCRQDs9M3qk49m8w8F43MIeur/app" />
     </projectFiles>
 </psalm>

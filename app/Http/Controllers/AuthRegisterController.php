@@ -17,7 +17,7 @@ class AuthRegisterController extends Controller
     /**
      * Register a new user.
      *
-     * @param  RegisterResource
+     * @param  RegisterRequest
      * @return RegisterResource
      */
     public function register(RegisterRequest $request): RegisterResource|ErrorRessource
@@ -54,7 +54,7 @@ class AuthRegisterController extends Controller
            if (!$user || !Hash::check($data['password'], $user->password))
            {
                $customError = new ErrorRessource();
-               $customError -> setMessage('Mot de pas incorrecte.');
+               $customError -> setMessage('Invalid login details');
                $customError -> setCode(401);
 
                return $customError;
@@ -69,4 +69,3 @@ class AuthRegisterController extends Controller
 
     }
 }
-
