@@ -2,53 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\PhpstanJob;
+use App\Classes\HandleRunJobs;
+use App\Http\Resources\Success\GeneralSuccessResource;
 use App\Models\Repository;
-use App\Http\Resources\Error\ErrorRessource;
-use App\Jobs\CloneRepositoryJob;
-use App\Jobs\PhpSecurityCheckerJob;
-use App\Jobs\ComposerAuditJob;
 use App\Models\TestRequest;
 use Illuminate\Http\Request;
-use App\Mail\AnalyzeBeginMail;
-use App\Mail\AnalyzeFailedMail;
-use Illuminate\Support\Facades\Mail;
-use App\Models\User;
 
 class TestRequestController extends Controller
 {
     /**
      * Run the tests
      * @param Request $request
-     * @return void
+     * @return GeneralSuccessResource
      */
-    public function runTests(Request $request)
+    public function runTests(Request $request): GeneralSuccessResource
     {
       $repository = Repository::find($request->repository_id);
-      $user_id = auth('sanctum')->user()->id;
+      //$user_id = auth('sanctum')->user()->id;
 
       $test_request = TestRequest::create([
           'repo_id' => $repository->id,
-          'user_id' => $user_id,
-
+          'user_id' => 1,
+          'branch' => $request->branch
       ]);
 
-      if ($request->phpstan) {
-          PhpstanJob::dispatch($repository, $test_request, $request->branch);
-      }
+      $handle_run_jobs = new HandleRunJobs($repository, $test_request, $request->tests);
+      $handle_run_jobs->run();
 
-      if ($request->php_security_checker) {
-        PhpSecurityCheckerJob::dispatch($repository ,$test_request, $request->branch);
-      }
-
-      if ($request->composer_audit) {
-        ComposerAuditJob::dispatch($repository, $test_request, $request->branch);
-      }
-
-      Mail::to(User::find($repository->user_id)->email)->send(new AnalyzeBeginMail());
-
-   
-      
+      return new GeneralSuccessResource('Test(s) are running !, This may take a while');
     }
-
 }
