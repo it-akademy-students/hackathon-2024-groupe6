@@ -4,6 +4,19 @@ Security in software development is a major concern in the field of computing. W
 
 This project aims to make the most of these tools and provide a comprehensive and user-friendly application. To achieve this, we utilize tools such as PHP Security Checker, PHPStan, and Composer Audit.
 
+### Prerequisites
+
+Before you begin working with this project, ensure that you have the following prerequisites installed and configured:
+
+PHP - Ensure that PHP is installed on your machine. You can download it from the official PHP website.
+Composer - Composer is a dependency manager for PHP. Install Composer globally on your machine by following the instructions on the Composer website.
+Node.js and npm - The project uses Node.js for frontend development. Install Node.js and npm to manage JavaScript packages. You can download them from the Node.js website.
+Vue.js - The frontend is developed using Vue.js. Familiarize yourself with Vue.js by referring to the official documentation.
+Laravel - Laravel is the PHP framework used for the backend. Make sure to have Laravel installed. You can install it globally using Composer: composer global require laravel/installer
+MySQL - MySQL is the chosen database system for this project. Install and configure MySQL on your machine.
+Git - Git is used for version control. Install Git to clone and contribute to the project. You can download it from the Git website.
+[Your IDE/Code Editor] - Use a code editor or integrated development environment (IDE) of your choice. Some popular options include Visual Studio Code, PhpStorm, or Sublime Text.
+
 ## Getting Started
 
 To get started with this project, follow these steps:
@@ -21,19 +34,6 @@ Run the command:
 which php
 ```
  and copy and paste the output of the command into the first line of the ```vendor/bin/phpstan``` file as in this example ```#!/opt/homebrew/bin/php```
-
-### Prerequisites
-
-Before you begin working with this project, ensure that you have the following prerequisites installed and configured:
-
-PHP - Ensure that PHP is installed on your machine. You can download it from the official PHP website.
-Composer - Composer is a dependency manager for PHP. Install Composer globally on your machine by following the instructions on the Composer website.
-Node.js and npm - The project uses Node.js for frontend development. Install Node.js and npm to manage JavaScript packages. You can download them from the Node.js website.
-Vue.js - The frontend is developed using Vue.js. Familiarize yourself with Vue.js by referring to the official documentation.
-Laravel - Laravel is the PHP framework used for the backend. Make sure to have Laravel installed. You can install it globally using Composer: composer global require laravel/installer
-MySQL - MySQL is the chosen database system for this project. Install and configure MySQL on your machine.
-Git - Git is used for version control. Install Git to clone and contribute to the project. You can download it from the Git website.
-[Your IDE/Code Editor] - Use a code editor or integrated development environment (IDE) of your choice. Some popular options include Visual Studio Code, PhpStorm, or Sublime Text.
 
 ### Installing
 
