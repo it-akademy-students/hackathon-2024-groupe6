@@ -23,11 +23,11 @@ class PhpSecurityCheckerResult extends Model
      */
     public function testRequest(): BelongsTo
     {
-        return $this->belongsTo('TestRequest');
+        return $this->belongsTo(TestRequest::class);
     }
 
-    public function resultStatus(): HasOne
+    public function status(): HasOne
     {
-        return $this->hasOne('ResultStatus');
+        return $this->hasOne(ResultStatus::class, 'id', 'result_status_id');
     }
 }

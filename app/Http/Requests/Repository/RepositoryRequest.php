@@ -11,7 +11,7 @@ class RepositoryRequest extends FormRequest
         if(auth('sanctum')->check()) return true;
         return false;
     }
-    
+
     public function rules(): array
     {
         return [

@@ -64,12 +64,6 @@ class PhpSecurityCheckerJob implements ShouldQueue
         $handleGit->gitCheckout($this->testRequest->branch);
 
         $result = Process::run( base_path() . '/tools/local-php-security-checker  --path='. $this->repository->repo_path . '--format=json >'. $phpsecuritychecker_result_path);
-       
-        if($result){
-            echo "ok";
-        }else{
-            echo "Erreur";
-        }
     }
 }
 

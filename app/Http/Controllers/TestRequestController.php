@@ -14,7 +14,6 @@ use App\Mail\AnalyzeBeginMail;
 use App\Mail\AnalyzeFailedMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
-use App\Http\Requests\TestRequest\TestRequestRequest;
 
 class TestRequestController extends Controller
 {
@@ -23,16 +22,14 @@ class TestRequestController extends Controller
      * @param Request $request
      * @return void
      */
-    public function runTests(TestRequestRequest $request)
+    public function runTests(Request $request)
     {
-      $request->validated();
       $repository = Repository::find($request->repository_id);
       $user_id = auth('sanctum')->user()->id;
 
       $test_request = TestRequest::create([
           'repo_id' => $repository->id,
           'user_id' => $user_id,
-          'branch' => $request->branch,
 
       ]);
 
@@ -48,7 +45,10 @@ class TestRequestController extends Controller
         ComposerAuditJob::dispatch($repository, $test_request, $request->branch);
       }
 
-      Mail::to(User::find($repository->user_id)->email)->send(new AnalyzeBeginMail());      
+      Mail::to(User::find($repository->user_id)->email)->send(new AnalyzeBeginMail());
+
+
+
     }
 
 }
