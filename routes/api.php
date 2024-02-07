@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/run-tests', 'runTests');
 });*/
 //Route::get('/git-fetch-origin', [RepositoryController::class, 'gitFetchOrigin']);
+Route::post('/run-tests', [TestRequestController::class, 'runTests']);
 
 
 Route::controller(AuthRegisterController::class)->group(function() {
@@ -51,6 +52,6 @@ Route::middleware('auth:sanctum')
         });
 
         Route::controller(TestRequestController::class)->group(function () {
-            Route::post('/run-tests', 'runTests');
+            //Route::post('/run-tests', 'runTests');
         });
     });

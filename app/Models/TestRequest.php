@@ -19,7 +19,7 @@ class TestRequest extends Model
     protected $fillable = [
         'repo_id',
         'user_id',
-      
+        'branch'
     ];
 
     /**
