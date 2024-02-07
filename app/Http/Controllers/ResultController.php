@@ -73,7 +73,15 @@ class ResultController extends Controller
         ->with(
           'testRequests',
           function ($query) {
-            $query->with('phpstanResult', 'phpSecurityCheckerResult', 'composerAuditResult');
+            $query->with('phpstanResult', function ($ttt) {
+                $ttt->with('status');
+            });
+            $query->with('phpSecurityCheckerResult', function ($ttt) {
+                $ttt->with('status');
+            });
+            $query->with('composerAuditResult', function ($ttt) {
+                $ttt->with('status');
+            });
           }
         )
         ->first();
