@@ -42,8 +42,10 @@ class HandleRunJobs
 
     if ($this->tests_array['phpstan'])
       $jobs_array[] = new PhpstanJob($this->repository, $this->testRequest, $this->branch);
+
     if ($this->tests_array['php_security_checker'])
       $jobs_array[] = new PhpSecurityCheckerJob($this->repository, $this->testRequest, $this->branch);
+
     if ($this->tests_array['composer_audit'])
       $jobs_array[] = new ComposerAuditJob($this->repository, $this->testRequest, $this->branch);
 
