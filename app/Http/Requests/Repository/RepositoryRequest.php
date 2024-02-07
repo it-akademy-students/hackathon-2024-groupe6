@@ -8,10 +8,10 @@ class RepositoryRequest extends FormRequest
 {
     public function authorize(): bool
     {
-      return true;
         if(auth('sanctum')->check()) return true;
         return false;
     }
+    
     public function rules(): array
     {
         return [
