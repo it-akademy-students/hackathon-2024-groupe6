@@ -18,11 +18,11 @@ class TestRequestController extends Controller
     public function runTests(Request $request): GeneralSuccessResource
     {
       $repository = Repository::find($request->repository_id);
-      //$user_id = auth('sanctum')->user()->id;
+      $user_id = auth('sanctum')->user()->id;
 
       $test_request = TestRequest::create([
           'repo_id' => $repository->id,
-          'user_id' => 1,
+          'user_id' => $user_id,
           'branch' => $request->branch
       ]);
 
