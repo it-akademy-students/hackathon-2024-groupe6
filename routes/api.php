@@ -41,6 +41,10 @@ Route::middleware('auth:sanctum')
             Route::get('/git-fetch-origin', 'gitFetchOrigin');
         });
 
+        Route::controller(AuthRegisterController::class)->group(function() {
+          Route::get('/delete-account', 'deleteUser');
+        });
+
         Route::controller(UsersController::class)->prefix('/user')->group(function () {
             Route::get('/get-authenticated', 'getAuthUser');
             Route::post('/update', 'update');
