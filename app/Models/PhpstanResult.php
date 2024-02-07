@@ -24,8 +24,8 @@ class PhpstanResult extends Model
         return $this->belongsTo('TestRequest');
     }
 
-    public function resultStatus(): HasOne
+    public function status(): HasOne
     {
-        return $this->hasOne('ResultStatus');
+        return $this->hasOne(ResultStatus::class, 'id', 'result_status_id');
     }
 }

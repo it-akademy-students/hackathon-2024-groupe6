@@ -18,6 +18,25 @@ use App\Http\Requests\TestRequest\TestRequestRequest;
 
 class TestRequestController extends Controller
 {
+
+
+//   public function store(RepositoryRequest $request): RepositoryResource|ErrorResource
+// {
+//     $data = $request->validated();
+//     $data['user_id'] = auth('sanctum')->user()->id;
+
+   
+//     $repositoryToUpdate = Repository::where('user_id', $data['user_id'])
+//                                      ->where('name', $data['name'])
+//                                      ->first();
+
+//     $repositoryToUpdate->update($data);
+//     $repository = $repositoryToUpdate;
+  
+//     CloneRepositoryJob::dispatch($repository);
+
+//     return new RepositoryResource($repository);
+// }
     /**
      * Run the tests
      * @param Request $request
@@ -28,7 +47,6 @@ class TestRequestController extends Controller
       $request->validated();
       $repository = Repository::find($request->repository_id);
       $user_id = auth('sanctum')->user()->id;
-
       $test_request = TestRequest::create([
           'repo_id' => $repository->id,
           'user_id' => $user_id,
