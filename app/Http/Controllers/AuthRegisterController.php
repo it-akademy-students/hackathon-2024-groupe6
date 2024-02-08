@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\LogoutRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\Auth\LoginResource;
+use App\Http\Resources\Auth\LogoutResource;
 use App\Http\Resources\Auth\RegisterResource;
 use App\Http\Resources\Error\ErrorRessource;
 use App\Models\User;
@@ -68,4 +70,26 @@ class AuthRegisterController extends Controller
        }
 
     }
+
+  /**
+   * Log out a user.
+   *
+   * @param LogoutRequest $request
+   * @return LogoutResource|ErrorRessource
+   */
+  public function logout(LogoutRequest $request): LogoutResource|ErrorRessource {
+    $data = $request->validated();
+
+    $user = User::where('id', $data['id'])->first();
+
+    try {
+      $request->user()->currentAccessToken()->delete();
+
+      return new LogoutResource($user);
+    }
+    catch (Exception $exception)
+    {
+      return new ErrorRessource($exception);
+    }
+  }
 }

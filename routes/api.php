@@ -22,6 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->group( function () {
+  Route::post('/logout', [AuthRegisterController::class, 'logout']);
+});
+
 /*Route::controller(TestRequestController::class)->group(function () {
     Route::post('/run-tests', 'runTests');
 });*/
