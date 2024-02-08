@@ -48,7 +48,7 @@ class PhpSecurityCheckerJob implements ShouldQueue
      /**
      * Execute the job.
      */
-    public function handle():void
+    public function handle(): void
     {
         $name_rapport_file = now()->format('d-m-Y-H-i-s') . '-phpSecurityChecker' . $this->repository->name;
         $base_path_repository = base_path() . '/public' . Storage::url($this->repository->repo_path);
@@ -63,13 +63,15 @@ class PhpSecurityCheckerJob implements ShouldQueue
         $handleGit = new HandleGit($this->repository);
         $handleGit->gitCheckout($this->testRequest->branch);
 
-        $result = Process::run( base_path() . '/tools/local-php-security-checker  --path='. $this->repository->repo_path . '--format=json >'. $phpsecuritychecker_result_path);
+        $resultPSC = Process::run( base_path() . '/tools/local-php-security-checker  --path='. $this->repository->repo_path . '--format=json >'. $phpsecuritychecker_result_path);
        
-        if($result){
+        if($resultPSC){
             echo "ok";
         }else{
             echo "Erreur";
         }
+
+        
     }
 }
 
