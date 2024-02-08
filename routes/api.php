@@ -49,5 +49,6 @@ Route::middleware('auth:sanctum')
 
         Route::controller(TestRequestController::class)->group(function () {
             Route::post('/run-tests', 'runTests');
+            Route::get('/get-tests-requests', 'getTestsRequests');
         });
     });

@@ -9,6 +9,7 @@ use App\Jobs\CloneRepositoryJob;
 use App\Jobs\PhpSecurityCheckerJob;
 use App\Jobs\ComposerAuditJob;
 use App\Models\TestRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Mail\AnalyzeBeginMail;
 use App\Mail\AnalyzeFailedMail;
@@ -24,14 +25,14 @@ class TestRequestController extends Controller
 //     $data = $request->validated();
 //     $data['user_id'] = auth('sanctum')->user()->id;
 
-   
+
 //     $repositoryToUpdate = Repository::where('user_id', $data['user_id'])
 //                                      ->where('name', $data['name'])
 //                                      ->first();
 
 //     $repositoryToUpdate->update($data);
 //     $repository = $repositoryToUpdate;
-  
+
 //     CloneRepositoryJob::dispatch($repository);
 
 //     return new RepositoryResource($repository);
@@ -48,7 +49,7 @@ class TestRequestController extends Controller
       $test_request = TestRequest::create([
           'repo_id' => $repository->id,
           'user_id' => $user_id,
-
+          'branch' => $request->branch,
       ]);
 
       if ($request->phpstan) {
@@ -64,9 +65,12 @@ class TestRequestController extends Controller
       }
 
       Mail::to(User::find($repository->user_id)->email)->send(new AnalyzeBeginMail());
-
-
-
     }
+  public function getTestsRequests(Request $request): JsonResponse
+  {
+    $user_id = auth('sanctum')->user()->id;
+    $tests_requests = TestRequest::where('user_id', $user_id)->get();
+    return response()->json($tests_requests);
+  }
 
 }
