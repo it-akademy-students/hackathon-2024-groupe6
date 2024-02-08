@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AnalyzeBeginMail extends Mailable
+class AnalyzeFinishSuccessMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,7 +28,7 @@ class AnalyzeBeginMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'L\'analyse de votre repo a commencé',
+            subject: 'L\'analyse de votre repo est terminé',
         );
     }
 
@@ -38,7 +38,7 @@ class AnalyzeBeginMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.analyze.begin',
+            markdown: 'mail.analyze.finish-success',
         );
     }
 
