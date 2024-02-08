@@ -13,53 +13,52 @@ use Illuminate\Http\Request;
 
 class RepositoryController extends Controller
 {
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param RepositoryRequest $request
-   * @return RepositoryResource|ErrorRessource
-   */
-  public function store(RepositoryRequest $request): RepositoryResource|ErrorRessource
-  {
-    $data = $request->validated();
-    $data['user_id'] = auth('sanctum')->user()->id;
-    $repository = Repository::create($data);
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(RepositoryRequest $request): RepositoryResource|ErrorRessource
+    {
+        $data = $request->validated();
+        $data['user_id'] = auth('sanctum')->user()->id;
+        $repository = Repository::create($data);
 
-    CloneRepositoryJob::dispatch($repository);
+        CloneRepositoryJob::dispatchSync($repository);
 
-    return new RepositoryResource($repository = Repository::find($repository->id));
-  }
+        return new RepositoryResource($repository = Repository::find($repository->id));
+    }
 
-  /**
-   * @return JsonResponse
-   */
-  public function getRepositories(): JsonResponse
-  {
- 
-    $repositories = Repository::where('user_id', '=', auth('sanctum')->user()->id)
-      ->with(
-        'testRequests',
-        function ($query) {
-          $query->with('phpstanResult');
-        }
-      )
-      ->get();
-    return response()->json($repositories);
-  }
+    public function getRepositories(): JsonResponse
+    {
+        $repositories = Repository::where('user_id', '=', auth('sanctum')->user()->id)
+            ->with(
+                'testRequests',
+                function ($query) {
+                    $query->with('phpstanResult');
+                }
+            )
+            ->get();
 
-  /**
-   * Get the new branches on remote
-   * @param Request $request
-   * @return RepositoryResource
-   */
-  public function gitFetchOrigin(Request $request): RepositoryResource
-  {
-    $repository = Repository::find(intval($request->get('repository_id')));
+        return response()->json($repositories);
+    }
 
-    $handleGit = new HandleGit($repository);
-    $handleGit->gitFetchOrigin();
-    $handleGit->getBranches();
+    public function getRepository(Request $request)
+    {
+        $repository = Repository::find(intval($request->get('repo_id')));
 
-    return new RepositoryResource($repository);
-  }
+        return response()->json($repository);
+    }
+
+    /**
+     * Get the new branches on remote
+     */
+    public function gitFetchOrigin(Request $request): RepositoryResource
+    {
+        $repository = Repository::find(intval($request->get('repository_id')));
+
+        $handleGit = new HandleGit($repository);
+        $handleGit->gitFetchOrigin();
+        $handleGit->getBranches();
+
+        return new RepositoryResource($repository);
+    }
 }

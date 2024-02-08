@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\HandleRunJobs;
+use App\Http\Requests\TestRequest\TestRequestRequest;
 use App\Http\Resources\Success\GeneralSuccessResource;
 use App\Models\Repository;
 use App\Models\TestRequest;
@@ -12,23 +13,25 @@ class TestRequestController extends Controller
 {
     /**
      * Run the tests
-     * @param Request $request
-     * @return GeneralSuccessResource
+     *
+     * @param  Request  $request
      */
-    public function runTests(Request $request): GeneralSuccessResource
+    public function runTests(TestRequestRequest $request): GeneralSuccessResource
     {
-      $repository = Repository::find($request->repository_id);
-      $user_id = auth('sanctum')->user()->id;
+        $request->validated();
 
-      $test_request = TestRequest::create([
-          'repo_id' => $repository->id,
-          'user_id' => $user_id,
-          'branch' => $request->branch,
-      ]);
+        $repository = Repository::find($request->repository_id);
+        $user_id = auth('sanctum')->user()->id;
 
-      $handle_run_jobs = new HandleRunJobs($repository, $test_request, $request->tests);
-      $handle_run_jobs->run();
+        $test_request = TestRequest::create([
+            'repo_id' => $repository->id,
+            'user_id' => $user_id,
+            'branch' => $request->branch,
+        ]);
 
-      return new GeneralSuccessResource('Test(s) are running !, This may take a while');
+        $handle_run_jobs = new HandleRunJobs($repository, $test_request,  $request->tests);
+        $handle_run_jobs->run();
+
+        return new GeneralSuccessResource('Test(s) are running !, This may take a while');
     }
 }

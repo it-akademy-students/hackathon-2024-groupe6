@@ -33,10 +33,11 @@ class HandleGit
    */
   public function gitClone(): void
   {
-    Process::run(
+    $process = Process::run(
       'git clone ' . $this->repository->url . ' '
       . storage_path('app/public/') . $this->repository->user_id . '/' . $this->repo_name
     );
+    $this->getBranches();
   }
 
   /**
