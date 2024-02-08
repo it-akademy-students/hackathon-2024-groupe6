@@ -75,6 +75,7 @@ class AuthRegisterController extends Controller
     try {
       $user = auth('sanctum')->user();
       $user->tokens()->delete();
+      //TODO - supprimer les lignes dans les tables repositories, test_requests, (results?) et cloned repos
       $user->delete();
 
       return new LogoutResource(null);
