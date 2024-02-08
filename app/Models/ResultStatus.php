@@ -14,6 +14,6 @@ class ResultStatus extends Model
 
     public function phpstanResults(): HasMany
     {
-        return $this->hasMany('PhpstanResult');
+        return $this->hasMany(PhpstanResult::class);
     }
 }

@@ -65,7 +65,7 @@ class PhpSecurityCheckerJob implements ShouldQueue
             echo "Erreur";
         }
 
-        
+
     }
 }
 

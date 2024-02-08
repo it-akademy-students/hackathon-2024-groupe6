@@ -7,6 +7,7 @@ use App\Http\Requests\TestRequest\TestRequestRequest;
 use App\Http\Resources\Success\GeneralSuccessResource;
 use App\Models\Repository;
 use App\Models\TestRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TestRequestController extends Controller
@@ -34,4 +35,11 @@ class TestRequestController extends Controller
 
         return new GeneralSuccessResource('Test(s) are running !, This may take a while');
     }
+  public function getTestsRequests(Request $request): JsonResponse
+  {
+    $user_id = auth('sanctum')->user()->id;
+    $tests_requests = TestRequest::where('user_id', $user_id)->get();
+    return response()->json($tests_requests);
+  }
+
 }

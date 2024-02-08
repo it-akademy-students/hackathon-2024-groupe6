@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-
-
 class PhpSecurityCheckerResult extends Model
 {
     use HasFactory;
@@ -24,11 +22,11 @@ class PhpSecurityCheckerResult extends Model
      */
     public function testRequest(): BelongsTo
     {
-        return $this->belongsTo('TestRequest');
+        return $this->belongsTo(TestRequest::class);
     }
 
     public function status(): HasOne
     {
-        return $this->hasOne(ResultStatus::class,'id', 'result_status_id');
+        return $this->hasOne(ResultStatus::class, 'id', 'result_status_id');
     }
 }
