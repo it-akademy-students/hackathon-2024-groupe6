@@ -21,6 +21,8 @@ class UsersController extends Controller
         $data = $request->validated();
 
         $user->update($data);
+
+        return new UserRessource($user);
     }
 
     /**
