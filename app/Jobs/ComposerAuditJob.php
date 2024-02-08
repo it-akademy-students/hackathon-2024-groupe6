@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,7 +19,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class ComposerAuditJob implements  ShouldQueue, ShouldBeEncrypted
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /** @var Repository $repository */
     public Repository $repository;

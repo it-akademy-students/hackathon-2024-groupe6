@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthRegisterController;
 use App\Http\Controllers\RepositoryController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\TestRequestController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
@@ -26,20 +27,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/run-tests', 'runTests');
 });*/
 //Route::get('/git-fetch-origin', [RepositoryController::class, 'gitFetchOrigin']);
+Route::get('/get-results-by-branch',[ResultController::class, 'getResultByBranch']);
 Route::post('/run-tests', [TestRequestController::class, 'runTests']);
+Route::post('/demand', [RepositoryController::class, 'store']);
 
-
-Route::controller(AuthRegisterController::class)->group(function() {
+Route::controller(AuthRegisterController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
 });
 
 Route::middleware('auth:sanctum')
-    ->group(function() {
+    ->group(function () {
         Route::controller(RepositoryController::class)->group(function () {
-            Route::post('/demand',  'store');
-            Route::get('/get-repositories', "getRepositories");
+            //Route::post('/demand',  'store');
+            Route::get('/get-repositories', 'getRepositories');
             Route::get('/git-fetch-origin', 'gitFetchOrigin');
+            Route::get('/get-repository', 'getRepository');
         });
 
         Route::controller(AuthRegisterController::class)->group(function() {

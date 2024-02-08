@@ -13,7 +13,7 @@ class PhpstanResult extends Model
     use HasFactory;
 
     protected $fillable= [
-        'test_request_id', 'result_status_id', 'path_result', 'branch'
+        'test_request_id', 'result_status_id', 'path_result'
     ];
 
     /**
@@ -24,8 +24,8 @@ class PhpstanResult extends Model
         return $this->belongsTo('TestRequest');
     }
 
-    public function resultStatus(): HasOne
+    public function status(): HasOne
     {
-        return $this->hasOne('ResultStatus');
+        return $this->hasOne(ResultStatus::class, 'id', 'result_status_id');
     }
 }

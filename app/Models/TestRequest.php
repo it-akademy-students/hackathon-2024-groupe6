@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\ComposerAuditResult;
+use App\Models\PhpSecurityCheckerResult;
+use App\Models\PhpstanResult;
+use App\Models\Repository;
 
 class TestRequest extends Model
 {
@@ -46,7 +50,7 @@ class TestRequest extends Model
      */
     public function repository(): BelongsTo
     {
-        return $this->belongsTo('Repository');
+        return $this->belongsTo(Repository::class);
     }
 
 
@@ -55,6 +59,14 @@ class TestRequest extends Model
      */
     public function phpSecurityCheckerResult(): HasOne
     {
-        return $this->hasOne('PhpstanResult');
+        return $this->hasOne(PhpSecurityCheckerResult::class);
     }
+     /**
+     * Relationships between models Result & TestRequest
+     */
+    public function composerAuditResult(): HasOne
+    {
+        return $this->hasOne(ComposerAuditResult::class);
+    }
+     
 }

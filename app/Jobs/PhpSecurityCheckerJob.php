@@ -6,6 +6,7 @@ use App\Models\Repository;
 use App\Models\TestRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\PhpSecurityCheckerResult;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeEncrypted;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -18,7 +19,7 @@ use App\Services\HandleGit;
 
 class PhpSecurityCheckerJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /** @var Repository $repository */
     public Repository $repository;
@@ -42,7 +43,7 @@ class PhpSecurityCheckerJob implements ShouldQueue
      /**
      * Execute the job.
      */
-    public function handle():void
+    public function handle(): void
     {
         $name_rapport_file = now()->format('d-m-Y-H-i-s') . '-phpSecurityChecker' . $this->repository->name;
         $base_path_repository = base_path() . '/public' . Storage::url($this->repository->repo_path);
@@ -54,7 +55,7 @@ class PhpSecurityCheckerJob implements ShouldQueue
         ]);
 
         $handleGit = new HandleGit($this->repository);
-        $handleGit->gitCheckout($this->branch);
+        $handleGit->gitCheckout($this->testRequest->branch);
 
         $result = Process::run( base_path() . '/tools/local-php-security-checker  --path='. $this->repository->repo_path . '--format=json >'. $phpsecuritychecker_result_path);
 
@@ -63,6 +64,8 @@ class PhpSecurityCheckerJob implements ShouldQueue
         }else{
             echo "Erreur";
         }
+
+        
     }
 }
 

@@ -6,6 +6,7 @@ use App\Models\PhpstanResult;
 use App\Models\Repository;
 use App\Models\TestRequest;
 use App\Services\HandleGit;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PhpstanJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /** @var Repository $repository */
     public Repository $repository;
@@ -53,7 +54,7 @@ class PhpstanJob implements ShouldQueue
         ]);
 
         $handleGit = new HandleGit($this->repository);
-        $handleGit->gitCheckout($this->branch);
+        $handleGit->gitCheckout($this->testRequest->branch);
 
         Process::run(
             base_path()
