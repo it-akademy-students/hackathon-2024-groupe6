@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Mail\AnalyzeBeginMail;
 use App\Mail\AnalyzeFailedMail;
 use App\Models\Repository;
 use App\Models\User;
@@ -14,11 +13,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Throwable;
 
 class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
 {
@@ -44,13 +38,5 @@ class CloneRepositoryJob implements ShouldQueue, ShouldBeEncrypted
         $handleGit->gitClone();
         $handleGit->setRandomRepoName();
         $handleGit->getBranches();
-    }
-
-    /**
-     * Handle a job failure.
-     */
-    public function failed(Throwable $exception): void
-    {
-        Mail::to(User::find($this->repository->user_id)->email)->send(new AnalyzeFailedMail($exception));
     }
 }
