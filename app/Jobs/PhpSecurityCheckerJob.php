@@ -6,6 +6,7 @@ use App\Models\Repository;
 use App\Models\TestRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\PhpSecurityCheckerResult;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeEncrypted;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -18,7 +19,7 @@ use App\Services\HandleGit;
 
 class PhpSecurityCheckerJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /** @var Repository $repository */
     public Repository $repository;
