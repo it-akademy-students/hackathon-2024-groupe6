@@ -22,10 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->group( function () {
-  Route::post('/logout', [AuthRegisterController::class, 'logout']);
-});
-
 /*Route::controller(TestRequestController::class)->group(function () {
     Route::post('/run-tests', 'runTests');
 });*/
@@ -48,6 +44,7 @@ Route::middleware('auth:sanctum')
 
         Route::controller(AuthRegisterController::class)->group(function() {
           Route::get('/delete-account', 'deleteUser');
+          Route::post('/logout', 'logout');
         });
 
         Route::controller(UsersController::class)->prefix('/user')->group(function () {
