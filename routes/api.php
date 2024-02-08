@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('/run-tests', 'runTests');
 });*/
 //Route::get('/git-fetch-origin', [RepositoryController::class, 'gitFetchOrigin']);
+Route::post('/run-tests', [TestRequestController::class, 'runTests']);
 
 
 Route::controller(AuthRegisterController::class)->group(function() {
@@ -45,12 +46,16 @@ Route::middleware('auth:sanctum')
             Route::get('/git-fetch-origin', 'gitFetchOrigin');
         });
 
+        Route::controller(AuthRegisterController::class)->group(function() {
+          Route::get('/delete-account', 'deleteUser');
+        });
+
         Route::controller(UsersController::class)->prefix('/user')->group(function () {
             Route::get('/get-authenticated', 'getAuthUser');
             Route::post('/update', 'update');
         });
 
         Route::controller(TestRequestController::class)->group(function () {
-            Route::post('/run-tests', 'runTests');
+            //Route::post('/run-tests', 'runTests');
         });
     });

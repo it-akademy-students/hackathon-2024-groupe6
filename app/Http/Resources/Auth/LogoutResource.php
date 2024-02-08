@@ -2,21 +2,25 @@
 
 namespace App\Http\Resources\Auth;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class LogoutResource extends JsonResource
 {
-  public function toArray(Request $request): array
-  {
-    return [
-      "id" => '',
-      "name" => '',
-      "email" => '',
-      "access_token" => '',
-      "created_at" => '',
-      "updated_at" => '',
-    ];
-  }
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'status' => true,
+        ];
+    }
 
+    public function withResponse($request, $response)
+    {
+        $response->setStatusCode(200, 'User logged out successfully!');
+    }
 }
