@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthRegisterController;
+use App\Http\Controllers\ForgottenPasswordController;
 use App\Http\Controllers\RepositoryController;
 use App\Http\Controllers\TestRequestController;
 use App\Http\Controllers\UsersController;
@@ -21,6 +22,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('guest')
+    ->group(function() {
+        Route::controller(ForgottenPasswordController::class)->group(function() {
+            Route::post('/forgot-password', 'requestPasswordResetForm');
+            Route::post('/reset-password', 'resetPasswordForm');
+        });
+    });
+
+
+
 
 /*Route::controller(TestRequestController::class)->group(function () {
     Route::post('/run-tests', 'runTests');

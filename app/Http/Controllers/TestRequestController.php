@@ -29,6 +29,6 @@ class TestRequestController extends Controller
       $handle_run_jobs = new HandleRunJobs($repository, $test_request, $request->tests);
       $handle_run_jobs->run();
 
-      return new GeneralSuccessResource('Test(s) are running !, This may take a while');
+      return new GeneralSuccessResource('Test(s) are running ! This may take a while');
     }
 }
