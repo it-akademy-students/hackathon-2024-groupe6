@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Result;
-use App\Models\TestRequest;
 use App\Models\Repository;
+use App\Models\Result;
 use Illuminate\Http\Request;
-
 
 class ResultController extends Controller
 {
@@ -25,7 +23,6 @@ class ResultController extends Controller
     {
         //
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -69,23 +66,24 @@ class ResultController extends Controller
 
     public function getResultByBranch(Request $request)
     {
-        $repository = Repository::where('user_id', '=', auth('sanctum')->user()->id)
-        ->with(
-          'testRequests',
-          function ($query) {
-            $query->with('phpstanResult', function ($ttt) {
-                $ttt->with('status');
-            });
-            $query->with('phpSecurityCheckerResult', function ($ttt) {
-                $ttt->with('status');
-            });
-            $query->with('composerAuditResult', function ($ttt) {
-                $ttt->with('status');
-            });
-          }
-        )
-        ->first();
+        $repository = Repository::where('id', '=', $request->repo_id)
+            ->with(
+                'testRequests',
+                function ($query) use($request) {
+                    $query->where('branch', '=', $request->branch);
+                    $query->with('phpstanResult', function ($ttt) {
+                        $ttt->with('status');
+                    });
+                    $query->with('phpSecurityCheckerResult', function ($ttt) {
+                        $ttt->with('status');
+                    });
+                    $query->with('composerAuditResult', function ($ttt) {
+                        $ttt->with('status');
+                    });
+                }
+            )
+            ->first();
+
         return response()->json($repository);
-  } 
-    
+    }
 }

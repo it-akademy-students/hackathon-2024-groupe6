@@ -1,4 +1,5 @@
 # Project Title
+Ninjanalysis
 
 Security in software development is a major concern in the field of computing. While artificial intelligence has made significant advances, human expertise remains essential. To facilitate this expertise, various static code analysis tools have been developed, offering valuable assistance.
 
