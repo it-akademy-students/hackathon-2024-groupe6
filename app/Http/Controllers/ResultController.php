@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Repository;
 use App\Models\Result;
+use App\Repositories\RepoRepository;
 use Illuminate\Http\Request;
 
 class ResultController extends Controller
@@ -64,26 +65,10 @@ class ResultController extends Controller
         //
     }
 
-    public function getResultByBranch(Request $request)
+    public function getResultByBranch(Request $request, RepoRepository $repository)
     {
-        $repository = Repository::where('id', '=', $request->repo_id)
-            ->with(
-                'testRequests',
-                function ($query) use($request) {
-                    $query->where('branch', '=', $request->branch);
-                    $query->with('phpstanResult', function ($ttt) {
-                        $ttt->with('status');
-                    });
-                    $query->with('phpSecurityCheckerResult', function ($ttt) {
-                        $ttt->with('status');
-                    });
-                    $query->with('composerAuditResult', function ($ttt) {
-                        $ttt->with('status');
-                    });
-                }
-            )
-            ->first();
-
-        return response()->json($repository);
+        $repository_results = $repository->getTestsByRepoId($request->repo_id, $request->branch)->first();
+    
+        return response()->json($repository_results);
     }
 }

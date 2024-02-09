@@ -90,9 +90,9 @@ class HandleRunJobs
     }
 
     /**
-     * Callback then Batch testsBatch(
+     * Callback then Batch testsBatch
      *
-     * @return void)
+     * @return void
      */
     private function thenBatch(Batch $batch): void
     {

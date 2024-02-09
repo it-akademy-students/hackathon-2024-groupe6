@@ -21,7 +21,7 @@ class PhpstanResult extends Model
      */
     public function testRequest(): BelongsTo
     {
-        return $this->belongsTo('TestRequest');
+        return $this->belongsTo(TestRequest::class);
     }
 
     public function status(): HasOne

@@ -10,6 +10,7 @@ use App\Models\Repository;
 use App\Services\HandleGit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Repositories\RepoRepository;
 
 class RepositoryController extends Controller
 {
@@ -27,16 +28,9 @@ class RepositoryController extends Controller
         return new RepositoryResource($repository = Repository::find($repository->id));
     }
 
-    public function getRepositories(): JsonResponse
+    public function getRepositories(RepoRepository $repository): JsonResponse
     {
-        $repositories = Repository::where('user_id', '=', auth('sanctum')->user()->id)
-            ->with(
-                'testRequests',
-                function ($query) {
-                    $query->with('phpstanResult');
-                }
-            )
-            ->get();
+        $repositories = $repository->getTestsByUserId()->get();
 
         return response()->json($repositories);
     }
