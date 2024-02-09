@@ -8,7 +8,6 @@ use App\Models\TestRequest;
 use App\Services\HandleGit;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -20,13 +19,10 @@ class PhpstanJob implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /** @var Repository $repository */
     public Repository $repository;
 
-    /** @var TestRequest $testRequest */
     public TestRequest $testRequest;
 
-    /** @var string $branch */
     public string $branch;
 
     /**
@@ -44,23 +40,25 @@ class PhpstanJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $name_rapport_file = now()->format('d-m-Y-H-i-s') . '-phpstan' . $this->repository->name;
-        $base_path_repository = base_path() . '/public' . Storage::url($this->repository->repo_path);
+        $name_rapport_file = now()->format('d-m-Y-H-i-s').'-phpstan'.$this->repository->name;
+        $base_path_repository = base_path().'/public'.Storage::url($this->repository->repo_path);
+        $phpstan_result_path = storage_path('app/public/').$this->repository->user_id.'/'.$name_rapport_file.'.json';
 
-        PhpstanResult::create([
+        $phpstan_result = PhpstanResult::create([
             'test_request_id' => $this->testRequest->id,
-            'result_status_id' => 1,
-            'path_result' => $phpstan_result_path = storage_path('app/public/') . $this->repository->user_id . '/' . $name_rapport_file . '.json',
+            'result_status_id' => 3,
+            'path_result' => '/storage/'.$this->repository->user_id.'/'.$name_rapport_file.'.json',
         ]);
 
         $handleGit = new HandleGit($this->repository);
         $handleGit->gitCheckout($this->testRequest->branch);
 
-        Process::run(
+        $process = Process::run(
             base_path()
-            . '/vendor/bin/phpstan analyse --level max --error-format=prettyJson '
-            . $base_path_repository
-            . ' > ' . $phpstan_result_path
+            .'/vendor/bin/phpstan analyse --level max --error-format=prettyJson '
+            .$base_path_repository
+            .' > '.$phpstan_result_path
         );
+
     }
 }

@@ -47,11 +47,12 @@ class PhpSecurityCheckerJob implements ShouldQueue
     {
         $name_rapport_file = now()->format('d-m-Y-H-i-s') . '-phpSecurityChecker' . $this->repository->name;
         $base_path_repository = base_path() . '/public' . Storage::url($this->repository->repo_path);
+        $phpsecuritychecker_result_path = storage_path('app/public/') . $this->repository->user_id . '/' . $name_rapport_file . '.json';
 
         PhpSecurityCheckerResult::create([
             'test_request_id' => $this->testRequest->id,
             'result_status_id' => 1,
-            'path_result' => $phpsecuritychecker_result_path = storage_path('app/public/') . $this->repository->user_id . '/' . $name_rapport_file . '.json',
+            'path_result' => '/storage/' . $this->repository->user_id . '/' . $name_rapport_file . '.json'
         ]);
 
         $handleGit = new HandleGit($this->repository);
@@ -65,7 +66,7 @@ class PhpSecurityCheckerJob implements ShouldQueue
             echo "Erreur";
         }
 
-
+        
     }
 }
 

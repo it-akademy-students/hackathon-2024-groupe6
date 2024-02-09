@@ -8,11 +8,9 @@ class TestRequestRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        //return true;
         if (auth('sanctum')->check()) {
             return true;
         }
-
         return false;
     }
 
